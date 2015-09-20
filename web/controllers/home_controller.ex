@@ -1,4 +1,4 @@
-defmodule Reader.ArticleController do
+defmodule Reader.HomeController do
   use Reader.Web, :controller
 
   def index(conn, _params) do

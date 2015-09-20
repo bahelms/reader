@@ -16,7 +16,7 @@ defmodule Reader.Router do
   scope "/", Reader do
     pipe_through :browser
 
-    get "/", ArticleController, :index
+    get "/", HomeController, :index
   end
 
   # Other scopes may use custom stacks.
