@@ -1,5 +1,6 @@
 defmodule Reader.Article do
   use Reader.Web, :model
+  import Ecto.Query
 
   schema "articles" do
     field :url, :string
@@ -7,7 +8,6 @@ defmodule Reader.Article do
     field :title, :string
     field :read, :boolean, default: false
     field :favorite, :boolean, default: false
-
     timestamps
   end
 
@@ -23,5 +23,16 @@ defmodule Reader.Article do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def articles_by_category do
+    __MODULE__
+      |> order_by([a], a.category)
+  end
+
+  def distinct_categories do
+    __MODULE__
+      |> group_by([a], a.category)
+      |> select([a], a.category)
   end
 end
