@@ -1,0 +1,21 @@
+<div class="row" id="article_data">
+  <div class="row">
+    <div class="col-md-1 col-md-offset-4 text-right">
+      <strong>Title:</strong>
+    </div>
+    <div class="col-md-7"><%= @article.title %></div>
+  </div>
+  <div class="row">
+    <div class="col-md-1 col-md-offset-4 text-right">
+      <strong>URL:</strong>
+    </div>
+    <div class="col-md-7"><%= @article.url %></div>
+  </div>
+  <div class="row">
+    <div class="col-md-1 col-md-offset-4 text-right">
+      <strong>Category:</strong>
+    </div>
+    <div class="col-md-7"><%= @article.category %></div>
+  </div>
+</div>
+

@@ -22,7 +22,7 @@ defmodule Reader.Article do
   """
   def changeset(model, params \\ :empty) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+      |> cast(params, @required_fields, @optional_fields)
   end
 
   def articles_by_category do
@@ -35,4 +35,13 @@ defmodule Reader.Article do
       |> group_by([a], a.category)
       |> select([a], a.category)
   end
+
+  def in_category(query \\ __MODULE__, category) do
+    where(query, [a], a.category == ^category)
+  end
+
+  def unread(query \\ __MODULE__) do
+    where(query, [a], a.read == false)
+  end
 end
+

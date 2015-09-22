@@ -6,26 +6,28 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-12 text-center">
-    <h2>Select a category</h2>
-  </div>
+<div data-role="article_container">
   <div class="row">
-    <div class="col-md-2 col-md-offset-5">
-      <select class="form-control">
-        <%= for category <- @categories do %>
-          <option value="<%= category %>"><%= category %></option>
-        <% end %>
-      </select>
+    <div class="col-md-12 text-center">
+      <h2>Select a category</h2>
+    </div>
+    <div class="row">
+      <div class="col-md-2 col-md-offset-5">
+        <select class="form-control" data-role="category_select">
+          <%= for category <- @categories do %>
+            <option value="<%= category %>"><%= titleize(category) %></option>
+          <% end %>
+        </select>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="row">
-  <div class="col-md-2 col-md-offset-4">
-    <button class="btn btn-lg btn-primary" id="show_article_btn">
-      Show me an article!
-    </button>
+  <div class="row">
+    <div class="col-md-2 col-md-offset-4">
+      <button class="btn btn-lg btn-primary" id="show_article_btn">
+        Get me an article!
+      </button>
+    </div>
   </div>
 </div>
 
