@@ -3,7 +3,6 @@ defmodule Reader.ArticleController do
   alias Reader.Article
   import Logger
 
-  :random.seed(:os.timestamp)
 
   def index(conn, %{"category" => category}) do
     render conn, "_article_data.html", article: pluck_article(category)
@@ -19,6 +18,8 @@ defmodule Reader.ArticleController do
   end
 
   defp pluck_article("random") do
+    :random.seed(:os.timestamp)
+
     Article.unread
       |> Reader.Repo.all
       |> Enum.shuffle
@@ -26,6 +27,8 @@ defmodule Reader.ArticleController do
   end
 
   defp pluck_article(category) do
+    :random.seed(:os.timestamp)
+
     Article.in_category(category)
       |> Article.unread
       |> Reader.Repo.all
