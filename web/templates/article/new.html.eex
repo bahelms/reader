@@ -1,3 +1,47 @@
-<div>
-  A new one
+<div class="row">
+  <div class="col-md-2 col-md-offset-2">
+    <h2>Add article</h2>
+  </div>
 </div>
+
+<%= form_for @changeset, article_path(@conn, :create), [class: "form-inline"], fn f -> %>
+  <%= render "_form_errors.html", f: f, changeset: @changeset %>
+
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="form-group">
+        <%= text_input f, :url, class: "form-control", placeholder: "URL" %>
+      </div>
+      <div class="form-group">
+        <%= text_input f, :category, class: "form-control", placeholder: "Category" %>
+      </div>
+      <div class="form-group">
+        <%= submit "Submit", class: "btn" %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<hr>
+
+<div class="row">
+  <div class="col-md-4 col-md-offset-2">
+    <h2>Add bulk articles</h2>
+  </div>
+</div>
+
+<%= form_for @bulk_changeset, article_path(@conn, :create), [class: "form-inline"], fn f -> %>
+  <%= render "_form_errors.html", f: f, changeset: @bulk_changeset %>
+
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="form-group">
+        <%= textarea f, :bulk_articles, class: "form-control", rows: 12, cols: 100 %>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn">Submit</button>
+      </div>
+    </div>
+  </div>
+<% end %>
+

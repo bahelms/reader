@@ -3,6 +3,7 @@ defmodule Reader.ArticleController do
   alias Reader.Article
   import Logger
 
+  plug :scrub_params, "article" when action in [:create, :update]
 
   def index(conn, %{"category" => category}) do
     render conn, "_article_data.html", article: pluck_article(category)
@@ -14,7 +15,28 @@ defmodule Reader.ArticleController do
   end
 
   def new(conn, _params) do
-    render conn, :new
+    changeset = Article.changeset(%Article{})
+    render conn, :new, changeset: changeset, bulk_changeset: changeset
+  end
+
+  def create(conn, %{"article" => %{"bulk_articles" => articles}}) do
+    # parse articles
+    # save each
+    put_flash(conn, :info, "Bulk articles saved")
+      |> redirect to: "/articles/new"
+  end
+
+  def create(conn, %{"article" => article_params}) do
+    changeset = Article.changeset(%Article{}, article_params)
+    bulk_changeset = Article.changeset(%Article{})
+
+    case Reader.Repo.insert(changeset) do
+      {:ok, _article} ->
+        put_flash(conn, :info, "Article saved")
+          |> redirect to: article_path(conn, :new)
+      {:error, changeset} ->
+        render conn, :new, changeset: changeset, bulk_changeset: bulk_changeset
+    end
   end
 
   defp pluck_article("random") do
