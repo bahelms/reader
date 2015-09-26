@@ -10,7 +10,7 @@
       <strong>URL:</strong>
     </div>
     <div class="col-md-7">
-      <a href=<%= @article.url %>><%= @article.url %></a>
+      <%= link @article.url, to: @article.url %>
     </div>
   </div>
   <div class="row">

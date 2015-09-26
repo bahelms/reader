@@ -1,6 +1,7 @@
 defmodule Reader.ArticleController do
   use Reader.Web, :controller
   alias Reader.Article
+  alias Reader.BulkArticles
   import Logger
 
   plug :scrub_params, "article" when action in [:create, :update]
@@ -19,13 +20,6 @@ defmodule Reader.ArticleController do
     render conn, :new, changeset: changeset, bulk_changeset: changeset
   end
 
-  def create(conn, %{"article" => %{"bulk_articles" => articles}}) do
-    # parse articles
-    # save each
-    put_flash(conn, :info, "Bulk articles saved")
-      |> redirect to: "/articles/new"
-  end
-
   def create(conn, %{"article" => article_params}) do
     changeset = Article.changeset(%Article{}, article_params)
     bulk_changeset = Article.changeset(%Article{})
@@ -37,6 +31,17 @@ defmodule Reader.ArticleController do
       {:error, changeset} ->
         render conn, :new, changeset: changeset, bulk_changeset: bulk_changeset
     end
+  end
+
+  def create_bulk(conn, %{"article" => bulk_params}) do
+    BulkArticles.parse(bulk_params)
+      |> BulkArticles.to_changesets
+      |> Enum.map fn(changeset) ->
+        Reader.Repo.insert(changeset)
+      end
+
+    put_flash(conn, :info, "Bulk articles saved")
+      |> redirect to: "/articles/new"
   end
 
   defp pluck_article("random") do

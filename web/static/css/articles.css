@@ -5,3 +5,11 @@
 #favorite_color {
   background-color: #dff0d8;
 }
+
+#bulk_category {
+  margin: 0 0 10px 10px;
+}
+
+#bulk_submit {
+  margin: 0 0 0 10px;
+}

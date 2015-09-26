@@ -18,6 +18,7 @@ defmodule Reader.Router do
 
     get "/", HomeController, :index
     resources "articles", ArticleController, only: [:new, :index, :create]
+    post "/bulk_articles", ArticleController, :create_bulk
   end
 
   # Other scopes may use custom stacks.

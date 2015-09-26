@@ -1,6 +1,6 @@
 <div class="row">
-  <div class="col-md-1 text-center" id="read_color">Read</div>
-  <div class="col-md-1 text-center" id="favorite_color">Favorite</div>
+  <div class="col-md-1 text-center pull-right" id="favorite_color">Favorite</div>
+  <div class="col-md-1 text-center pull-right" id="read_color">Read</div>
 </div>
 
 <div class="row">
@@ -17,9 +17,7 @@
         <%= for article <- @articles do %>
           <tr class=<%= article_status(article) %>>
             <td><%= article.title %></td>
-            <td>
-              <a href=<%= article.url %> target="_blank"><%= article.url %></a>
-            </td>
+            <td><%= link article.url, to: article.url, target: "_blank" %></td>
             <td><%= article.category %></td>
           </tr>
         <% end %>
@@ -27,3 +25,4 @@
     </table>
   </div>
 </div>
+
