@@ -7,7 +7,7 @@ defmodule Reader.ArticleController do
   plug :scrub_params, "article" when action in [:create, :update]
 
   def index(conn, %{"category" => category}) do
-    render conn, "_article_data.html", article: pluck_article(category)
+    redirect conn, to: "/articles/#{pluck_article(category).id}"
   end
 
   def index(conn, _params) do
@@ -18,6 +18,10 @@ defmodule Reader.ArticleController do
   def new(conn, _params) do
     changeset = Article.changeset(%Article{})
     render conn, :new, changeset: changeset, bulk_changeset: changeset
+  end
+
+  def show(conn, %{"id" => id}) do
+    render conn, :show, article: Reader.Repo.get!(Article, id)
   end
 
   def create(conn, %{"article" => article_params}) do

@@ -17,7 +17,7 @@ defmodule Reader.Router do
     pipe_through :browser
 
     get "/", HomeController, :index
-    resources "articles", ArticleController, only: [:new, :index, :create]
+    resources "articles", ArticleController, only: [:new, :index, :create, :show]
     post "/bulk_articles", ArticleController, :create_bulk
   end
 
