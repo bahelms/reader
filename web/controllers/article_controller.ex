@@ -2,6 +2,7 @@ defmodule Reader.ArticleController do
   use Reader.Web, :controller
   alias Reader.Article
   alias Reader.BulkArticles
+  alias Reader.ArticleNormalizer
   import Logger
 
   plug :scrub_params, "article" when action in [:create, :update]
@@ -35,6 +36,13 @@ defmodule Reader.ArticleController do
       {:error, changeset} ->
         render conn, :new, changeset: changeset, bulk_changeset: bulk_changeset
     end
+  end
+
+  def update(conn, %{"id" => id, "article" => params}) do
+    article = Repo.get!(Article, id)
+    Article.changeset(article, ArticleNormalizer.boolean(params))
+      |> Repo.update
+    redirect conn, to: article_path(conn, :show, article)
   end
 
   def create_bulk(conn, %{"article" => bulk_params}) do

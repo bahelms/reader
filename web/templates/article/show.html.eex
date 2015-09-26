@@ -19,5 +19,26 @@
     </div>
     <div class="col-md-7"><%= @article.category %></div>
   </div>
+  <div class="row">
+    <div class="col-md-1 col-md-offset-4 text-right">
+      <strong>Read:</strong>
+    </div>
+    <div class="col-md-7"><%= @article.read %></div>
+  </div>
+  <div class="row">
+    <div class="col-md-1 col-md-offset-4 text-right">
+      <strong>Favorite:</strong>
+    </div>
+    <div class="col-md-7"><%= @article.favorite %></div>
+  </div>
+</div>
+
+<div class="row" id="edit_article_buttons">
+  <div class="col-md-4 col-md-offset-4">
+    <%= button "Delete", to: "#", class: "btn btn-danger" %>
+    <%= button "Edit", to: "#", class: "btn btn-warning" %>
+    <%= status_button(:favorite, @conn, @article) %>
+    <%= status_button(:read, @conn, @article) %>
+  </div>
 </div>
 

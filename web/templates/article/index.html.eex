@@ -3,7 +3,7 @@
   <div class="col-md-1 text-center pull-right" id="read_color">Read</div>
 </div>
 
-<div class="row">
+<div class="row" data-container="articles_table">
   <div class="col-md-12">
     <table class="table table-hover table-condensed" id="articles_table">
       <thead>
@@ -16,7 +16,9 @@
       <tbody>
         <%= for article <- @articles do %>
           <tr class=<%= article_status(article) %>>
-            <td><%= article.title %></td>
+            <td data-behavior="show_article" id=<%= article.id %>>
+              <%= article.title %>
+            </td>
             <td><%= link article.url, to: article.url, target: "_blank" %></td>
             <td><%= article.category %></td>
           </tr>
