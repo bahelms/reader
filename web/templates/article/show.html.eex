@@ -35,12 +35,14 @@
 
 <div class="row" id="edit_article_buttons">
   <div class="col-md-4 col-md-offset-4">
-    <%= button "Delete", to: article_path(@conn, :delete, @article), 
-      method: "delete", class: "btn btn-danger", "data-behavior": "confirm" %>
-    <%= link "Edit", to: article_path(@conn, :edit, @article), 
-      class: "btn btn-warning" %>
     <%= status_button(:favorite, @conn, @article) %>
     <%= status_button(:read, @conn, @article) %>
+    <%= link "Edit", to: article_path(@conn, :edit, @article), 
+      class: "btn btn-warning" %>
+  </div>
+  <div class="col-md-1 pull-right">
+    <%= button "Delete", to: article_path(@conn, :delete, @article), 
+      method: "delete", class: "btn btn-danger", "data-behavior": "confirm" %>
   </div>
 </div>
 

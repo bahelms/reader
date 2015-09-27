@@ -44,7 +44,7 @@
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
 
-      <div data-controller=<%= controller_module(@conn) %>
+      <div data-controller=<%= controller_module(@conn) %>>
         <%= @inner %>
       </div>
     </div>

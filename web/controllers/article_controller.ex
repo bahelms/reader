@@ -8,7 +8,8 @@ defmodule Reader.ArticleController do
   plug :scrub_params, "article" when action in [:create, :update]
 
   def index(conn, %{"category" => category}) do
-    redirect conn, to: "/articles/#{pluck_article(category).id}"
+    article_id = pluck_article(String.downcase(category)).id
+    redirect conn, to: "/articles/#{article_id}"
   end
 
   def index(conn, _params) do

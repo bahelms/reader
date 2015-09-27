@@ -1,8 +1,12 @@
 defmodule Reader.HomeController do
   use Reader.Web, :controller
+  alias Reader.Article
 
   def index(conn, _params) do
-    categories = ["random" | Repo.all(Reader.Article.distinct_categories)]
-    render conn, "index.html", categories: categories
+    categories = Article.distinct_categories
+      |> Article.unread
+      |> Repo.all
+    render conn, "index.html", categories: ["random" | categories]
   end
 end
+
