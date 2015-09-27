@@ -17,7 +17,7 @@ defmodule Reader.Router do
     pipe_through :browser
 
     get "/", HomeController, :index
-    resources "articles", ArticleController, except: [:delete, :edit]
+    resources "articles", ArticleController
     post "/bulk_articles", ArticleController, :create_bulk
   end
 

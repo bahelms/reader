@@ -12,8 +12,12 @@ defmodule Reader.ArticleController do
   end
 
   def index(conn, _params) do
-    articles = Reader.Repo.all(Article.articles_by_category)
+    articles = Repo.all(Article.articles_by_category)
     render conn, :index, articles: articles
+  end
+
+  def show(conn, %{"id" => id}) do
+    render conn, :show, article: Repo.get!(Article, id)
   end
 
   def new(conn, _params) do
@@ -21,15 +25,11 @@ defmodule Reader.ArticleController do
     render conn, :new, changeset: changeset, bulk_changeset: changeset
   end
 
-  def show(conn, %{"id" => id}) do
-    render conn, :show, article: Reader.Repo.get!(Article, id)
-  end
-
   def create(conn, %{"article" => article_params}) do
     changeset = Article.changeset(%Article{}, article_params)
     bulk_changeset = Article.changeset(%Article{})
 
-    case Reader.Repo.insert(changeset) do
+    case Repo.insert(changeset) do
       {:ok, _article} ->
         put_flash(conn, :info, "Article saved")
           |> redirect to: article_path(conn, :new)
@@ -45,11 +45,16 @@ defmodule Reader.ArticleController do
     redirect conn, to: article_path(conn, :show, article)
   end
 
+  def delete(conn, %{"id" => id}) do
+    Repo.get(Article, id) |> Repo.delete
+    redirect conn, to: article_path(conn, :index)
+  end
+
   def create_bulk(conn, %{"article" => bulk_params}) do
     BulkArticles.parse(bulk_params)
       |> BulkArticles.to_changesets
       |> Enum.map fn(changeset) ->
-        Reader.Repo.insert(changeset)
+        Repo.insert(changeset)
       end
 
     put_flash(conn, :info, "Bulk articles saved")
@@ -60,7 +65,7 @@ defmodule Reader.ArticleController do
     :random.seed(:os.timestamp)
 
     Article.unread
-      |> Reader.Repo.all
+      |> Repo.all
       |> Enum.shuffle
       |> List.first
   end
@@ -70,7 +75,7 @@ defmodule Reader.ArticleController do
 
     Article.in_category(category)
       |> Article.unread
-      |> Reader.Repo.all
+      |> Repo.all
       |> Enum.shuffle
       |> List.first
   end
