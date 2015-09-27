@@ -18,6 +18,7 @@ defmodule Reader.Router do
 
     get "/", HomeController, :index
     resources "articles", ArticleController
+    put "/article_status/:id", ArticleController, :update_status
     post "/bulk_articles", ArticleController, :create_bulk
   end
 

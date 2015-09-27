@@ -38,7 +38,26 @@ defmodule Reader.ArticleController do
     end
   end
 
+  def edit(conn, %{"id" => id}) do
+    article = Repo.get!(Article, id)
+    changeset = Article.changeset(article)
+    render conn, :edit, article: article, changeset: changeset
+  end
+
   def update(conn, %{"id" => id, "article" => params}) do
+    article = Repo.get!(Article, id)
+    changeset = Article.changeset(article, params)
+
+    case Repo.update(changeset) do
+      {:ok, article} ->
+        put_flash(conn, :info, "Article saved")
+          |> redirect to: article_path(conn, :show, article)
+      {:error, changeset} ->
+        render conn, :edit, changeset: changeset, article: article
+    end
+  end
+
+  def update_status(conn, %{"id" => id, "article" => params}) do
     article = Repo.get!(Article, id)
     Article.changeset(article, ArticleNormalizer.boolean(params))
       |> Repo.update
@@ -46,7 +65,7 @@ defmodule Reader.ArticleController do
   end
 
   def delete(conn, %{"id" => id}) do
-    Repo.get(Article, id) |> Repo.delete
+    Repo.get!(Article, id) |> Repo.delete
     redirect conn, to: article_path(conn, :index)
   end
 

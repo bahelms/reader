@@ -12,6 +12,9 @@ class ArticleController {
       window.location.href = `/articles/${event.target.id}`;
     });
   }
+
+  confirm_delete() {
+  }
 }
 
 export default ArticleController

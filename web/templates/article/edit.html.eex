@@ -1,0 +1,51 @@
+<%= form_for @changeset, article_path(@conn, :update, @article), fn f -> %>
+  <%= render "_form_errors.html", f: f, changeset: @changeset %>
+    <div class="row" id="article_data">
+
+    <div class="row">
+      <div class="col-md-1 col-md-offset-4 text-right">
+        <%= label f, :title, "Title:" %>
+      </div>
+      <div class="col-md-4">
+        <%= text_input f, :title, class: "form-control" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1 col-md-offset-4 text-right">
+        <%= label f, :url, "URL:" %>
+      </div>
+      <div class="col-md-4">
+        <%= text_input f, :url, class: "form-control" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1 col-md-offset-4 text-right">
+        <%= label f, :category, "Category" %>
+      </div>
+      <div class="col-md-4">
+        <%= text_input f, :category, class: "form-control" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1 col-md-offset-4 text-right">
+        <%= label f, :read, "Read" %>
+      </div>
+      <div class="col-md-7"><%= @article.read %></div>
+    </div>
+    <div class="row">
+      <div class="col-md-1 col-md-offset-4 text-right">
+        <%= label f, :favorite, "Favorite" %>
+      </div>
+      <div class="col-md-7"><%= @article.favorite %></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2 col-md-offset-5">
+        <%= submit "Save", class: "btn btn-success" %>
+        <%= link "Cancel", to: article_path(@conn, :show, @article), 
+          class: "btn btn-danger" %>
+      </div>
+    </div>
+  </div>
+<% end %>
+

@@ -7,13 +7,13 @@ defmodule Reader.ArticleView do
 
   def status_button(:read, conn, article) do
     button(read_status(article.read),
-      to: article_path(conn, :update, article),
+      to: article_path(conn, :update_status, article),
       method: "put", name: "article[read]", class: "btn btn-info")
   end
 
   def status_button(:favorite, conn, article) do
     button(favorite_status(article.favorite),
-      to: article_path(conn, :update, article),
+      to: article_path(conn, :update_status, article),
       method: "put", name: "article[favorite]", class: "btn btn-success")
   end
 
