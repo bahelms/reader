@@ -24,7 +24,8 @@ import ArticleController from "./article_controller"
 
 $(document).ready(function() {
   Home.init();
-  if ($("[data-container=articles_table]").length) new ArticleController();
+  if ($("[data-controller='Elixir.Reader.ArticleController']").length)
+    new ArticleController();
 });
 
 

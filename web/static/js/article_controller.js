@@ -5,6 +5,7 @@ class ArticleController {
 
   bind_events() {
     this.show_article();
+    this.confirm_delete();
   }
 
   show_article() {
@@ -14,6 +15,10 @@ class ArticleController {
   }
 
   confirm_delete() {
+    $("[data-behavior=confirm]").click((event) => {
+      let res = confirm("Are you sure you want to delete this article?");
+      if (!res) event.preventDefault();
+    });
   }
 }
 
