@@ -16,8 +16,15 @@ class ArticleController {
 
   confirm_delete() {
     $("[data-behavior=confirm]").click((event) => {
-      let res = confirm("Are you sure you want to delete this article?");
-      if (!res) event.preventDefault();
+      event.preventDefault();
+      swal({
+        title: "Are you sure you want to delete this article?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Delete it!"
+      }, (confirmed) => {
+        if (!confirmed) event.preventDefault();
+      });
     });
   }
 }

@@ -4,7 +4,8 @@
   </div>
 </div>
 
-<%= form_for @changeset, article_path(@conn, :create), [class: "form-inline"], fn f -> %>
+<%= form_for @changeset, article_path(@conn, :create), [class: "form-inline"], 
+  fn f -> %>
   <%= render "_form_errors.html", f: f, changeset: @changeset %>
 
   <div class="row">
@@ -30,10 +31,12 @@
 <div class="row">
   <div class="col-md-4 col-md-offset-2">
     <h2>Add bulk articles</h2>
+    <small>Urls separated by newlines</small>
   </div>
 </div>
 
-<%= form_for @bulk_changeset, article_path(@conn, :create_bulk), [class: "form-inline"], fn f -> %>
+<%= form_for @bulk_changeset, article_path(@conn, :create_bulk), 
+  [class: "form-inline"], fn f -> %>
   <%= render "_form_errors.html", f: f, changeset: @bulk_changeset %>
 
   <div class="row">

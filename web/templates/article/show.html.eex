@@ -10,7 +10,7 @@
       <strong>URL:</strong>
     </div>
     <div class="col-md-7">
-      <%= link @article.url, to: @article.url %>
+      <%= link @article.url, to: @article.url, target: "_blank"%>
     </div>
   </div>
   <div class="row">
