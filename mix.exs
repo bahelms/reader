@@ -17,7 +17,7 @@ defmodule Reader.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [mod: {Reader, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger,
+     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :httpoison,
                     :phoenix_ecto, :postgrex]]
   end
 
@@ -34,6 +34,8 @@ defmodule Reader.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.1"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
+     {:httpoison, "~> 0.7.4"},
+     {:floki, "~> 0.5.0"},
      {:cowboy, "~> 1.0"}]
   end
 end

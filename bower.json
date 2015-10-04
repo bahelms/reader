@@ -1,7 +1,6 @@
 {
   "name": "reader",
   "dependencies": {
-    "jquery": "~ 2.1",
-    "sweetalert": "~1.1.0"
+    "jquery": "~ 2.1"
   }
 }

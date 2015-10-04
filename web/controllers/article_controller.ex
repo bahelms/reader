@@ -31,7 +31,8 @@ defmodule Reader.ArticleController do
     bulk_changeset = Article.changeset(%Article{})
 
     case Repo.insert(changeset) do
-      {:ok, _article} ->
+      {:ok, article} ->
+        Reader.ArticleWorker.update_title(article)
         put_flash(conn, :info, "Article saved")
           |> redirect to: article_path(conn, :new)
       {:error, changeset} ->

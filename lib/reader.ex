@@ -13,6 +13,7 @@ defmodule Reader do
       worker(Reader.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(Reader.Worker, [arg1, arg2, arg3]),
+      supervisor(Task.Supervisor, [[name: Reader.ArticleWorkerSupervisor]])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
