@@ -1,6 +1,6 @@
 # The Reader
 
-Heroku URL: fathomless-island-3495.herokuapp.com[https://fathomless-island-3495.herokuapp.com]
+Heroku URL: [fathomless-island-3495.herokuapp.com](https://fathomless-island-3495.herokuapp.com)
 
 TODO
 ----
