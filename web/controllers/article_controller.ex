@@ -74,9 +74,11 @@ defmodule Reader.ArticleController do
   def create_bulk(conn, %{"article" => bulk_params}) do
     BulkArticles.parse(bulk_params)
       |> BulkArticles.to_changesets
-      |> Enum.map fn(changeset) ->
-        Repo.insert(changeset)
-      end
+      |> Enum.map(fn(changeset) ->
+        {:ok, article} = Repo.insert(changeset)
+        article
+      end)
+      |> Enum.each(&Reader.ArticleWorker.update_title/1)
 
     put_flash(conn, :info, "Bulk articles saved")
       |> redirect to: "/articles/new"
