@@ -27,12 +27,12 @@
 
           <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li><%= link "All Articles", to: article_path(@conn, :index) %></li>
               <li><%= link "Add Articles", to: article_path(@conn, :new) %></li>
+              <li><%= link "All Articles", to: article_path(@conn, :index) %></li>
             </ul>
             <ul class="nav navbar-nav pull-right">
-              <li><%= link "Online Books", to: "#" %></li>
-              <li><%= link "Real Books", to: "#" %></li>
+              <li><%= link "Videos", to: "#" %></li>
+              <li><%= link "Books", to: "#" %></li>
               <li><%= link "Stats", to: "#" %></li>
             </ul>
           </div>
