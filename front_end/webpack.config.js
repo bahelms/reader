@@ -1,17 +1,30 @@
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var webpack = require("webpack");
+var appPath = __dirname + "/app";
+
 module.exports = {
-  context: __dirname + "/js",
-  entry: "./app.js",
+  entry: appPath,
   output: {
-    filename: "bundle.js",
-    path: __dirname
+    path: __dirname + "/build",
+    filename: "bundle.js"
   },
+  devServer: {
+    historyApiFallback: true,
+    hot: true,
+    inline: true,
+    progress: true
+  },
+  plugins: [
+    new HtmlWebpackPlugin({title: "Welcome to The Reader"}),
+    new webpack.HotModuleReplacementPlugin()
+  ],
   module: {
+    preloaders: [
+      { test: /\.jsx?$/, include: appPath, loaders: ["eslint"] },
+    ],
     loaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loaders: ["babel-loader"]
-      }
+      { test: /\.jsx?$/, include: appPath, loaders: ["babel"] },
+      { test: /\.css$/, include: appPath, loaders: ["style", "css"] },
     ]
   }
 }
