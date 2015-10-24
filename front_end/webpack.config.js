@@ -15,7 +15,7 @@ module.exports = {
     progress: true
   },
   plugins: [
-    new HtmlWebpackPlugin({title: "Welcome to The Reader"}),
+    new HtmlWebpackPlugin({template: "app/index.html", inject: "body"}),
     new webpack.HotModuleReplacementPlugin()
   ],
   module: {
