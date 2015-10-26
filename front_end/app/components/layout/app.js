@@ -1,7 +1,8 @@
 import React from "react";
+import Header from "./header";
 
 export default class App extends React.Component {
   render() {
-    return <h1>¡Hello React World!</h1>;
+    return <Header />;
   }
 }
