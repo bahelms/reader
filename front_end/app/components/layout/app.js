@@ -5,9 +5,9 @@ import ArticleSelector from "../article_selector";
 export default class App extends React.Component {
   render() {
     return (
-      <section className="container-fluid" id="app_container">
+      <section className="container-fluid">
         <Header />
-        <ArticleSelector />
+        <ArticleSelector url="/article_categories" />
       </section>
     );
   }

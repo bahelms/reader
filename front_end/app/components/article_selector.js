@@ -3,7 +3,15 @@ import React from "react";
 export default class ArticleSelector extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {categories: ["hey", "who", "there", "barf"]};
+    this.state = {categories: []};
+  }
+
+  componentDidMount() {
+    $.ajax({
+      url: this.props.url,
+      type: "GET",
+      success: (data) => { this.setState({categories: data}); }
+    });
   }
 
   articleBtnStyle() {

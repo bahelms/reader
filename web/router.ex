@@ -14,12 +14,13 @@ defmodule Reader.Router do
   end
 
   scope "/", Reader do
-    pipe_through :browser
+    pipe_through :api
 
-    get "/", HomeController, :index
+    # get "/", HomeController, :index
     resources "articles", ArticleController
-    put "/article_status/:id", ArticleController, :update_status
-    post "/bulk_articles", ArticleController, :create_bulk
+    get "/article_categories", ArticleController, :article_categories
+    # put "/article_status/:id", ArticleController, :update_status
+    # post "/bulk_articles", ArticleController, :create_bulk
   end
 
   # Other scopes may use custom stacks.
