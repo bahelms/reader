@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "be0344621019fd5899aa"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ae8a7a73f208f80a3c83"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -605,7 +605,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  background: cornsilk; }\n", ""]);
+	exports.push([module.id, "", ""]);
 
 	// exports
 
@@ -20495,6 +20495,10 @@
 
 	var _header2 = _interopRequireDefault(_header);
 
+	var _article_selector = __webpack_require__(164);
+
+	var _article_selector2 = _interopRequireDefault(_article_selector);
+
 	var App = (function (_React$Component) {
 	  _inherits(App, _React$Component);
 
@@ -20507,7 +20511,12 @@
 	  _createClass(App, [{
 	    key: "render",
 	    value: function render() {
-	      return _react2["default"].createElement(_header2["default"], null);
+	      return _react2["default"].createElement(
+	        "section",
+	        { className: "container-fluid", id: "app_container" },
+	        _react2["default"].createElement(_header2["default"], null),
+	        _react2["default"].createElement(_article_selector2["default"], null)
+	      );
 	    }
 	  }]);
 
@@ -20649,6 +20658,94 @@
 	})(_react2["default"].Component);
 
 	exports["default"] = Header;
+	module.exports = exports["default"];
+
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var ArticleSelector = (function (_React$Component) {
+	  _inherits(ArticleSelector, _React$Component);
+
+	  function ArticleSelector() {
+	    _classCallCheck(this, ArticleSelector);
+
+	    _get(Object.getPrototypeOf(ArticleSelector.prototype), "constructor", this).apply(this, arguments);
+	  }
+
+	  // <%= for category <- @categories do %>
+	  //   <option value="<%= category %>"><%= titleize(category) %></option>
+	  // <% end %>
+
+	  _createClass(ArticleSelector, [{
+	    key: "render",
+	    value: function render() {
+	      _react2["default"].createElement(
+	        "div",
+	        { id: "article_selector" },
+	        _react2["default"].createElement(
+	          "div",
+	          { className: "row" },
+	          _react2["default"].createElement(
+	            "div",
+	            { className: "col-md-12 text-center" },
+	            _react2["default"].createElement(
+	              "h2",
+	              null,
+	              "Select a category"
+	            )
+	          ),
+	          _react2["default"].createElement(
+	            "div",
+	            { className: "row" },
+	            _react2["default"].createElement(
+	              "div",
+	              { className: "col-md-2 col-md-offset-5" },
+	              _react2["default"].createElement("select", { className: "form-control", "data-role": "category_select" })
+	            )
+	          )
+	        ),
+	        _react2["default"].createElement(
+	          "div",
+	          { className: "row" },
+	          _react2["default"].createElement(
+	            "div",
+	            { className: "col-md-2 col-md-offset-4" },
+	            _react2["default"].createElement(
+	              "button",
+	              { className: "btn btn-lg btn-primary", id: "show_article_btn" },
+	              "Get me an article!"
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return ArticleSelector;
+	})(_react2["default"].Component);
+
+	exports["default"] = ArticleSelector;
 	module.exports = exports["default"];
 
 /***/ }
