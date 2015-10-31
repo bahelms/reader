@@ -16,9 +16,9 @@ defmodule Reader.Router do
   scope "/", Reader do
     pipe_through :api
 
-    # get "/", HomeController, :index
-    resources "articles", ArticleController
     get "/article_categories", ArticleController, :article_categories
+    resources "articles", ArticleController
+    # get "/", HomeController, :index
     # put "/article_status/:id", ArticleController, :update_status
     # post "/bulk_articles", ArticleController, :create_bulk
   end

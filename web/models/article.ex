@@ -44,5 +44,9 @@ defmodule Reader.Article do
   def unread(query \\ __MODULE__) do
     where(query, [a], a.read == false)
   end
+
+  def ordered_by_category(query \\ __MODULE__) do
+    order_by(query, [a], asc: a.category)
+  end
 end
 

@@ -10,6 +10,7 @@ defmodule Reader.ArticleController do
   def article_categories(conn, _params) do
     categories = Article.distinct_categories
       |> Article.unread
+      |> Article.ordered_by_category
       |> Repo.all
     json conn, %{categories: categories}
   end
