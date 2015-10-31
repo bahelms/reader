@@ -21,8 +21,8 @@
               aria-expanded="false">
               <span class="sr-only">Toggle navigation</span>
             </button>
-            <%= link "The Reader", to: home_path(@conn, :index), 
-              class: "navbar-brand" %>
+            <%# <%= link "The Reader", to: home_path(@conn, :index), %> 
+            <%#   class: "navbar-brand" %1> %>
           </div>
 
           <div class="collapse navbar-collapse" id="navbar-collapse-1">

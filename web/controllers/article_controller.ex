@@ -7,13 +7,12 @@ defmodule Reader.ArticleController do
 
   plug :scrub_params, "article" when action in [:create, :update]
 
-  # Write test first
-  # def article_categories(conn, _params) do
-  #   categories = Article.distinct_categories
-  #     |> Article.unread
-  #     |> Repo.all
-  #   render conn, "index.html", categories: ["random" | categories]
-  # end
+  def article_categories(conn, _params) do
+    categories = Article.distinct_categories
+      |> Article.unread
+      |> Repo.all
+    json conn, %{categories: categories}
+  end
 
   def index(conn, %{"category" => category}) do
     article_id = pluck_article(String.downcase(category)).id
