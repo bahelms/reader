@@ -7,7 +7,7 @@ export default class App extends React.Component {
     return (
       <section className="container-fluid">
         <Header />
-        <ArticleSelector url="/article_categories" />
+        <ArticleSelector url={`${this.props.backendDomain}/article_categories`} />
       </section>
     );
   }
