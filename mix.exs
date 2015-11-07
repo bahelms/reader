@@ -29,13 +29,14 @@ defmodule Reader.Mixfile do
   #
   # Type `mix help deps` for examples and options
   defp deps do
-    [{:phoenix, "~> 1.0.2"},
+    [{:cowboy, "~> 1.0"},
+     {:corsica, "~> 0.4.0"},
+     {:floki, "~> 0.5.0"},
+     {:httpoison, "~> 0.7.4"},
+     {:phoenix, "~> 1.0.2"},
      {:phoenix_ecto, "~> 1.1"},
-     {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.1"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:httpoison, "~> 0.7.4"},
-     {:floki, "~> 0.5.0"},
-     {:cowboy, "~> 1.0"}]
+     {:postgrex, ">= 0.0.0"},]
   end
 end

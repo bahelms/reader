@@ -10,7 +10,7 @@ export default class ArticleSelector extends React.Component {
     $.ajax({
       url: this.props.url,
       type: "GET",
-      success: (data) => { this.setState({categories: data}); }
+      success: (data) => { this.setState({categories: data.categories}); }
     });
   }
 
@@ -19,8 +19,8 @@ export default class ArticleSelector extends React.Component {
   }
 
   displayCategories() {
-    return this.state.categories.map((category) => {
-      return <option value={category}>{category}</option>;
+    return this.state.categories.map((category, index) => {
+      return <option key={index} value={category}>{category}</option>;
     });
   }
 

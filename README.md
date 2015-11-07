@@ -2,6 +2,15 @@
 
 Heroku URL: [fathomless-island-3495.herokuapp.com](https://fathomless-island-3495.herokuapp.com)
 
+## Start in development
+From /front_end:  
+
+    npm start
+
+From /:  
+
+    mix phoenix.server
+
 TODO
 ----
 * Add not null constraint to url, category on articles
