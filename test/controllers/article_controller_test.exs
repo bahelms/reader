@@ -14,10 +14,10 @@ defmodule Reader.ArticleControllerTest do
   end
 
   @doc "get /article_categories"
-  test "returns a unique list of all unread categories in asc order" do
+  test "returns a unique list of all unread categories in asc order, titleized" do
     conn = get conn, article_path(conn, :article_categories)
     {:ok, json} = Poison.decode(conn.resp_body)
-    assert json["categories"] == ["test1", "test2", "test3"]
+    assert json["categories"] == ["Random", "Test1", "Test2", "Test3"]
   end
 end
 

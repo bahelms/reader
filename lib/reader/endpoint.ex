@@ -35,6 +35,12 @@ defmodule Reader.Endpoint do
     key: "_reader_key",
     signing_salt: "NqrXrQQX"
 
-  plug Corsica, origins: "*"
+  frontend_origin = case Mix.env do
+    :dev  -> "http://localhost:8080"
+    :test -> "http://localhost:8080"
+    :prod -> ""
+  end
+
+  plug Corsica, origins: frontend_origin
   plug Reader.Router
 end
