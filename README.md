@@ -29,5 +29,6 @@ ERRORS
     2015-10-22T10:59:10.264692+00:00 app[web.1]:         (elixir) lib/task/supervised.ex:74: Task.Supervised.do_apply/2
     2015-10-22T10:59:10.264692+00:00 app[web.1]:         (stdlib) proc_lib.erl:237: :proc_lib.init_p_do_apply/3
 * Titles returned are also "301 redirect" strings
+* When URL has been taken for Bulk Articles, server error instead of flash warning
 
 
