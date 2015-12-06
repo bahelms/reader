@@ -15,7 +15,7 @@ export default class ArticleSelector extends React.Component {
   }
 
   articleBtnStyle() {
-    return { margin: "30px 0 0 110px" };
+   return { margin: "1.875em 0 0 0.8em" };
   }
 
   displayCategories() {
@@ -45,7 +45,7 @@ export default class ArticleSelector extends React.Component {
         </div>
 
         <div className="row">
-          <div className="col-md-2 col-md-offset-4">
+          <div className="col-md-2 col-md-offset-5">
             <button className="btn btn-lg btn-primary" style={this.articleBtnStyle()}
               onClick={this.getArticle}>
               Get me an article!
