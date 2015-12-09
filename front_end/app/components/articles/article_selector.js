@@ -1,4 +1,5 @@
 import React from "react";
+const BACKEND_DOMAIN = "http://localhost:4000"
 
 export default class ArticleSelector extends React.Component {
   constructor(props) {
@@ -8,7 +9,7 @@ export default class ArticleSelector extends React.Component {
 
   componentDidMount() {
     $.ajax({
-      url: this.props.url,
+      url: BACKEND_DOMAIN,
       type: "GET",
       success: (data) => { this.setState({categories: data.categories}); }
     });

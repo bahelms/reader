@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 export default class Header extends React.Component {
   render() {
@@ -18,7 +19,7 @@ export default class Header extends React.Component {
             <div className="collapse navbar-collapse" id="navbar-collapse-1">
               <ul className="nav navbar-nav">
                 <li><a href="#">Add Articles</a></li>
-                <li><a href="#">All Articles</a></li>
+                <li><Link to="/articles">All Articles</Link></li>
               </ul>
               <ul className="nav navbar-nav pull-right">
                 <li><a href="#">Videos</a></li>
