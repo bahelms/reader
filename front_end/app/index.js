@@ -1,11 +1,20 @@
 import "./main.scss";
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/layout/app";
-
-const backendDomain = "http://localhost:4000"
+import { Router, Route, IndexRoute } from "react-router";
+import createBrowserHistory from "history/lib/createBrowserHistory";
+import App from "./components/app";
+import ArticleIndex from "./components/articles/article_index"
+import ArticleSelector from "./components/articles/article_selector"
 
 const app = document.createElement("div");
 document.body.appendChild(app);
-ReactDOM.render(<App backendDomain={backendDomain} />, app);
 
+ReactDOM.render((
+  <Router history={createBrowserHistory()}>
+    <Route path="/" component={App}>
+      <IndexRoute component={ArticleSelector} />
+      <Route path="/articles" component={ArticleIndex} />
+    </Route>
+  </Router>
+), app);

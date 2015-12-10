@@ -1,13 +1,14 @@
 import React from "react";
-import Header from "./header";
-import ArticleSelector from "../article_selector";
+import Header from "./layout/header";
+import ArticleSelector from "./articles/article_selector";
 
 export default class App extends React.Component {
   render() {
+    console.log(this.props.children);
     return (
       <section className="container-fluid">
         <Header />
-        <ArticleSelector url={`${this.props.backendDomain}/article_categories`} />
+        {this.props.children}
       </section>
     );
   }
