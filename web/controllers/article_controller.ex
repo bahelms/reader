@@ -23,15 +23,15 @@ defmodule Reader.ArticleController do
       |> Enum.join(" ")
   end
 
+  def index(conn, _params) do
+    render conn, articles: Repo.all(Article.articles_by_category)
+  end
+
   # def index(conn, %{"category" => category}) do
   #   article_id = pluck_article(String.downcase(category)).id
   #   redirect conn, to: "/articles/#{article_id}"
   # end
 
-  # def index(conn, _params) do
-  #   articles = Repo.all(Article.articles_by_category)
-  #   render conn, :index, articles: articles
-  # end
 
   # def show(conn, %{"id" => id}) do
   #   render conn, :show, article: Repo.get!(Article, id)

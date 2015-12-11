@@ -1,5 +1,10 @@
 defmodule Reader.ArticleView do
   use Reader.Web, :view
+  @attributes ~W(url category title read favorite)
+
+  def render("index.json", %{articles: articles}) do
+    articles
+  end
 
   def article_status(%{read: true, favorite: false}), do: "info"
   def article_status(%{favorite: true}), do: "success"
