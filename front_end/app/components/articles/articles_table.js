@@ -8,8 +8,8 @@ export default class ArticlesTable extends React.Component {
   }
 
   componentDidMount() {
-    $.get(`${Server.address()}/articles`, (data) => {
-      this.setState({articles: data.articles});
+    $.get(`${Server.address()}/articles`, (articles) => {
+      this.setState({articles: articles});
     });
   }
 
@@ -28,7 +28,7 @@ export default class ArticlesTable extends React.Component {
             <tbody>
               {this.state.articles.map((article, index) => {
                 return (
-                  <tr className="info" key={index}>
+                  <tr className="status" key={index}>
                     <td id={article.id}>{article.title}</td>
                     <td>{article.url}</td>
                     <td>{article.category}</td>
