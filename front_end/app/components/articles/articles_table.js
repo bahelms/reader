@@ -1,5 +1,6 @@
 import React from "react";
 import Server from "../../server";
+import ArticleRow from "./article_row";
 
 export default class ArticlesTable extends React.Component {
   constructor(props) {
@@ -27,13 +28,7 @@ export default class ArticlesTable extends React.Component {
             </thead>
             <tbody>
               {this.state.articles.map((article, index) => {
-                return (
-                  <tr className="status" key={index}>
-                    <td id={article.id}>{article.title}</td>
-                    <td>{article.url}</td>
-                    <td>{article.category}</td>
-                  </tr>
-                );
+                return <ArticleRow article={article} key={index} />;
               })}
             </tbody>
           </table>
