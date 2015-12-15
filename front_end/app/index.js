@@ -16,9 +16,8 @@ ReactDOM.render((
   <Router history={createBrowserHistory()}>
     <Route path="/" component={App}>
       <IndexRoute component={ArticleSelector} />
-      <Route path="articles" component={ArticlesIndex}>
-        <Route path="/article/:id/hey" component={Article} />
-      </Route>
+      <Route path="articles" component={ArticlesIndex} />
+      <Route path="articles/:id" component={Article} />
       <Route path="*" component={NoMatch} />
     </Route>
   </Router>
