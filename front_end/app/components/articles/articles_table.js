@@ -1,15 +1,16 @@
 import React from "react";
-import Server from "../../server";
+import Data from "../../utils/data";
 import ArticleRow from "./article_row";
 
 export default class ArticlesTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {articles: []};
+    this.data = new Data();
   }
 
   componentDidMount() {
-    $.get(`${Server.address()}/articles`, (articles) => {
+    this.data.getArticles((articles) => {
       this.setState({articles: articles});
     });
   }

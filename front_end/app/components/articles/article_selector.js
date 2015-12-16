@@ -1,17 +1,16 @@
 import React from "react";
-import Server from "../../server";
+import Data from "../../utils/data";
 
 export default class ArticleSelector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {categories: []};
+    this.data = new Data();
   }
 
   componentDidMount() {
-    $.ajax({
-      url: `${Server.address()}/article_categories`,
-      type: "GET",
-      success: (data) => { this.setState({categories: data.categories}); }
+    this.data.getArticleCategories((categories) => {
+      this.setState({categories: categories});
     });
   }
 
