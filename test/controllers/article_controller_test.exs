@@ -4,13 +4,61 @@ defmodule Reader.ArticleControllerTest do
   require Logger
 
   setup do
-    [%Article{category: "test1", url: "one.com"},
-     %Article{category: "test1", url: "two.com"},
-     %Article{category: "test2", url: "three.com"},
-     %Article{category: "test3", url: "four.com"}] |>
-    Enum.each(fn(article) -> Repo.insert(article) end)
+    ids = [%Article{id: 1, category: "test1", url: "one.com"},
+           %Article{id: 2, category: "test1", url: "two.com"},
+           %Article{id: 3, category: "test2", url: "three.com"},
+           %Article{id: 4, category: "test3", url: "four.com"}]
+         |> Enum.map fn(article) ->
+           {:ok, article} = Repo.insert(article)
+           article.id
+         end
 
-    {:ok, []}
+    {:ok, ids: ids}
+  end
+
+  @doc "get /articles"
+  test "returns all articles ordered by category" do
+    conn = get conn, article_path(conn, :index)
+    {:ok, json} = Poison.decode(conn.resp_body)
+    assert json == [
+      %{"id" => 1,
+        "url" => "one.com",
+        "category" => "test1",
+        "title" => nil,
+        "read" => false,
+        "favorite" => false},
+      %{"id" => 2,
+        "url" => "two.com",
+        "category" => "test1",
+        "title" => nil,
+        "read" => false,
+        "favorite" => false},
+      %{"id" => 3,
+        "url" => "three.com",
+        "category" => "test2",
+        "title" => nil,
+        "read" => false,
+        "favorite" => false},
+      %{"id" => 4,
+        "url" => "four.com",
+        "category" => "test3",
+        "title" => nil,
+        "read" => false,
+        "favorite" => false},
+    ]
+  end
+
+  @doc "get /article/:id"
+  test "returns the article for id as json", %{ids: [id | ids]} do
+    conn = get conn, article_path(conn, :show, id)
+    {:ok, json} = Poison.decode(conn.resp_body)
+    assert json == %{
+      "id" => 1,
+      "url" => "one.com",
+      "category" => "test1",
+      "title" => nil,
+      "read" => false,
+      "favorite" => false }
   end
 
   @doc "get /article_categories"

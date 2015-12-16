@@ -7,6 +7,14 @@ defmodule Reader.ArticleController do
 
   plug :scrub_params, "article" when action in [:create, :update]
 
+  def index(conn, _params) do
+    render conn, articles: Repo.all(Article.articles_by_category)
+  end
+
+  def show(conn, %{"id" => id}) do
+    render conn, article: Repo.get!(Article, id)
+  end
+
   def article_categories(conn, _params) do
     categories = Article.distinct_categories
       |> Article.unread
@@ -23,19 +31,12 @@ defmodule Reader.ArticleController do
       |> Enum.join(" ")
   end
 
-  def index(conn, _params) do
-    render conn, articles: Repo.all(Article.articles_by_category)
-  end
-
   # def index(conn, %{"category" => category}) do
   #   article_id = pluck_article(String.downcase(category)).id
   #   redirect conn, to: "/articles/#{article_id}"
   # end
 
 
-  # def show(conn, %{"id" => id}) do
-  #   render conn, :show, article: Repo.get!(Article, id)
-  # end
 
   # def new(conn, _params) do
   #   changeset = Article.changeset(%Article{})

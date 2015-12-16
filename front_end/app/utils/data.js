@@ -14,4 +14,10 @@ export default class Data {
       callback(data.categories);
     });
   }
+
+  getArticle(id, callback) {
+    $.get(`${this.url}/articles/${id}`, (article) => {
+      callback(article);
+    });
+  }
 }
