@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 export default class ArticleRow extends React.Component {
   setStatus(article) {
@@ -10,10 +11,21 @@ export default class ArticleRow extends React.Component {
       return "";
   }
 
+  titleLinkStyle() {
+    return {
+      textDecoration: "none",
+      color: "black"
+    };
+  }
+
   render() {
     return (
       <tr className={this.setStatus(this.props.article)}>
-        <td id={this.props.article.id}>{this.props.article.title}</td>
+        <td>
+          <Link to={`/articles/${this.props.article.id}`} style={this.titleLinkStyle()}>
+            {this.props.article.title}
+          </Link>
+        </td>
         <td>
           <a href={this.props.article.url} target="_blank">
             {this.props.article.url}
