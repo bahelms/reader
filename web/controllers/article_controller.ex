@@ -5,8 +5,6 @@ defmodule Reader.ArticleController do
   alias Reader.ArticleNormalizer
   import Logger
 
-  plug :scrub_params, "article" when action in [:create, :update]
-
   def index(conn, _params) do
     render conn, articles: Repo.all(Article.articles_by_category)
   end

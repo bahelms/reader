@@ -20,4 +20,10 @@ export default class Data {
       callback(article);
     });
   }
+
+  postArticle(params, callback) {
+    $.post(`${this.url}/articles`, params, (data) => {
+      callback(data);
+    });
+  }
 }

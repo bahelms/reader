@@ -67,5 +67,10 @@ defmodule Reader.ArticleControllerTest do
     {:ok, json} = Poison.decode(conn.resp_body)
     assert json["categories"] == ["Random", "Test1", "Test2", "Test3"]
   end
+
+  @doc "post /articles"
+  test "creates a new article record" do
+    params = %{}
+  end
 end
 
