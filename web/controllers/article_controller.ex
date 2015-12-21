@@ -13,6 +13,32 @@ defmodule Reader.ArticleController do
     render conn, article: Repo.get!(Article, id)
   end
 
+  # def create(conn, article_params) do
+  #   changeset = Article.changeset(%Article{}, article_params)
+  #   bulk_changeset = Article.changeset(%Article{})
+
+  #   case Repo.insert(changeset) do
+  #     {:ok, article} ->
+  #       Reader.ArticleWorker.update_title(article)
+  #       put_flash(conn, :info, "Article saved")
+  #         |> redirect to: article_path(conn, :new)
+  #     {:error, changeset} ->
+  #       render conn, :new, changeset: changeset, bulk_changeset: bulk_changeset
+  #   end
+  # end
+
+  def update(conn, %{"id" => id} = params) do
+    article = Repo.get!(Article, id)
+    changeset = Article.changeset(article, params)
+
+    case Repo.update(changeset) do
+      {:ok, article} ->
+        render conn, status: :ok
+      {:error, changeset} ->
+        render conn, status: :error, errors: changeset.errors
+    end
+  end
+
   def article_categories(conn, _params) do
     categories = Article.distinct_categories
       |> Article.unread
@@ -34,44 +60,15 @@ defmodule Reader.ArticleController do
   #   redirect conn, to: "/articles/#{article_id}"
   # end
 
-
-
   # def new(conn, _params) do
   #   changeset = Article.changeset(%Article{})
   #   render conn, :new, changeset: changeset, bulk_changeset: changeset
-  # end
-
-  # def create(conn, %{"article" => article_params}) do
-  #   changeset = Article.changeset(%Article{}, article_params)
-  #   bulk_changeset = Article.changeset(%Article{})
-
-  #   case Repo.insert(changeset) do
-  #     {:ok, article} ->
-  #       Reader.ArticleWorker.update_title(article)
-  #       put_flash(conn, :info, "Article saved")
-  #         |> redirect to: article_path(conn, :new)
-  #     {:error, changeset} ->
-  #       render conn, :new, changeset: changeset, bulk_changeset: bulk_changeset
-  #   end
   # end
 
   # def edit(conn, %{"id" => id}) do
   #   article = Repo.get!(Article, id)
   #   changeset = Article.changeset(article)
   #   render conn, :edit, article: article, changeset: changeset
-  # end
-
-  # def update(conn, %{"id" => id, "article" => params}) do
-  #   article = Repo.get!(Article, id)
-  #   changeset = Article.changeset(article, params)
-
-  #   case Repo.update(changeset) do
-  #     {:ok, article} ->
-  #       put_flash(conn, :info, "Article saved")
-  #         |> redirect to: article_path(conn, :show, article)
-  #     {:error, changeset} ->
-  #       render conn, :edit, changeset: changeset, article: article
-  #   end
   # end
 
   # def update_status(conn, %{"id" => id, "article" => params}) do

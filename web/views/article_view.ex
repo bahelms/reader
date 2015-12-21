@@ -4,6 +4,10 @@ defmodule Reader.ArticleView do
 
   def render("index.json", %{articles: articles}), do: articles
   def render("show.json", %{article: article}), do: article
+  def render("update.json", %{status: :ok} = status), do: status
+
+  def render("update.json", %{status: :error} = status) do
+  end
 
   def article_status(%{read: true, favorite: false}), do: "info"
   def article_status(%{favorite: true}), do: "success"

@@ -2,6 +2,7 @@ defmodule Reader.ArticleControllerTest do
   use Reader.ConnCase
   alias Reader.Article
   require Logger
+  import Ecto.Query
 
   setup do
     ids = [%Article{id: 1, category: "test1", url: "one.com"},
@@ -70,7 +71,31 @@ defmodule Reader.ArticleControllerTest do
 
   @doc "post /articles"
   test "creates a new article record" do
-    params = %{}
+    params = %{title: "hey there", url: "http://hey-there.com", category: "shrimp"}
+    conn = post conn, article_path(conn, :create, params)
+    article = Repo.get_by(Article, url: "http://hey-there.com")
+    assert article != nil
+  end
+
+  @doc "put /articles/:id"
+  test "updates the given article" do
+    params = %{url: "update.four.com"}
+    conn = put conn, article_path(conn, :update, %Article{id: 4}), params
+    assert Repo.get(Article, 4).url == "update.four.com"
+  end
+
+  test "returns a status of 'ok' upon update" do
+    params = %{url: "a new URL"}
+    conn = put conn, article_path(conn, :update, %Article{id: 4}), params
+    {:ok, json} = Poison.decode(conn.resp_body)
+    assert json == %{status: "ok"}
+  end
+
+  test "returns a status of 'error' with a reason upon update" do
+    params = %{url: "one.com"}
+    conn = put conn, article_path(conn, :update, %Article{id: 4}), params
+    {:ok, json} = Poison.decode(conn.resp_body)
+    assert json == %{status: "error", errors: "one.com has already been taken"}
   end
 end
 
