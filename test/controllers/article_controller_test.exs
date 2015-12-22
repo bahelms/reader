@@ -88,14 +88,15 @@ defmodule Reader.ArticleControllerTest do
     params = %{url: "a new URL"}
     conn = put conn, article_path(conn, :update, %Article{id: 4}), params
     {:ok, json} = Poison.decode(conn.resp_body)
-    assert json == %{status: "ok"}
+    assert json == %{"status" => "ok"}
   end
 
   test "returns a status of 'error' with a reason upon update" do
     params = %{url: "one.com"}
     conn = put conn, article_path(conn, :update, %Article{id: 4}), params
     {:ok, json} = Poison.decode(conn.resp_body)
-    assert json == %{status: "error", errors: "one.com has already been taken"}
+    assert json == %{"status" => "error",
+                     "errors" => ["one.com has already been taken"]}
   end
 end
 

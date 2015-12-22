@@ -35,7 +35,7 @@ defmodule Reader.ArticleController do
       {:ok, article} ->
         render conn, status: :ok
       {:error, changeset} ->
-        render conn, status: :error, errors: changeset.errors
+        render conn, status: :error, changeset: changeset
     end
   end
 
