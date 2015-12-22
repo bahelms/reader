@@ -26,4 +26,13 @@ export default class Data {
       callback(data);
     });
   }
+
+  putArticle(id, params, callback) {
+    $.ajax({
+      url: `${this.url}/articles/${id}`,
+      type: "PUT",
+      success: (response) => { callback(response); },
+      failure: (data) => { alert(`Failure: ${data}`); }
+    });
+  }
 }

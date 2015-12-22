@@ -18,13 +18,7 @@ defmodule Reader.Router do
 
     get "/article_categories", ArticleController, :article_categories
     resources "articles", ArticleController, only: [:index, :show, :update]
-    # get "/", HomeController, :index
     # put "/article_status/:id", ArticleController, :update_status
     # post "/bulk_articles", ArticleController, :create_bulk
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", Reader do
-  #   pipe_through :api
-  # end
 end

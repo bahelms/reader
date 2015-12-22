@@ -30,8 +30,11 @@ export default class Article extends React.Component {
       category: this.refs.articleCategory.value
     }
 
-    this.data.postArticle(params, (data) => {
-      this.handleToggleEdit();
+    this.data.putArticle(this.props.params.id, params, (response) => {
+      if (response.status == "ok")
+        this.handleToggleEdit();
+      else if (response.status == "error")
+        console.log(response.errors);
     });
   }
 
