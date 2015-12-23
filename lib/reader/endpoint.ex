@@ -41,6 +41,9 @@ defmodule Reader.Endpoint do
     :prod -> ""
   end
 
-  plug Corsica, origins: frontend_origin, allow_headers: ["accept"]
+  plug Corsica,
+    origins: frontend_origin,
+    allow_headers: ["accept", "content-type"]
+
   plug Reader.Router
 end

@@ -31,6 +31,7 @@ export default class Data {
     $.ajax({
       url: `${this.url}/articles/${id}`,
       type: "PUT",
+      data: params,
       success: (response) => { callback(response); },
       failure: (data) => { alert(`Failure: ${data}`); }
     });

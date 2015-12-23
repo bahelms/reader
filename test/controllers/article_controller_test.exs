@@ -71,7 +71,11 @@ defmodule Reader.ArticleControllerTest do
 
   @doc "post /articles"
   test "creates a new article record" do
-    params = %{title: "hey there", url: "http://hey-there.com", category: "shrimp"}
+    params = %{
+      article: %{
+        title: "hey there", url: "http://hey-there.com", category: "shrimp"
+      }
+    }
     conn = post conn, article_path(conn, :create, params)
     article = Repo.get_by(Article, url: "http://hey-there.com")
     assert article != nil
@@ -79,24 +83,34 @@ defmodule Reader.ArticleControllerTest do
 
   @doc "put /articles/:id"
   test "updates the given article" do
-    params = %{url: "update.four.com"}
+    params = %{article: %{url: "update.four.com"}}
     conn = put conn, article_path(conn, :update, %Article{id: 4}), params
     assert Repo.get(Article, 4).url == "update.four.com"
   end
 
   test "returns a status of 'ok' upon update" do
-    params = %{url: "a new URL"}
+    params = %{article: %{url: "a new URL"}}
     conn = put conn, article_path(conn, :update, %Article{id: 4}), params
     {:ok, json} = Poison.decode(conn.resp_body)
-    assert json == %{"status" => "ok"}
+    assert json == %{
+      "status" => "ok",
+      "article" => %{
+        "id" => 4,
+        "category" => "test3",
+        "url" => "a new URL",
+        "title" => nil,
+        "read" => false,
+        "favorite" => false
+      }
+    }
   end
 
   test "returns a status of 'error' with a reason upon update" do
-    params = %{url: "one.com"}
+    params = %{article: %{url: "one.com"}}
     conn = put conn, article_path(conn, :update, %Article{id: 4}), params
     {:ok, json} = Poison.decode(conn.resp_body)
     assert json == %{"status" => "error",
-                     "errors" => ["one.com has already been taken"]}
+                     "errors" => ["url has already been taken"]}
   end
 end
 

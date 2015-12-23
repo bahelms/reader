@@ -3,12 +3,12 @@ defmodule Reader.ArticleView do
 
   def render("index.json", %{articles: articles}), do: articles
   def render("show.json", %{article: article}), do: article
-  def render("update.json", %{status: :ok}), do: %{status: :ok}
+  def render("update.json", a = %{status: :ok, article: article}) do
+    %{status: :ok, article: article}
+  end
 
-  def render("update.json", %{status: :error, changeset: changeset}) do
-    errors = for {field, error} <- changeset.errors do
-      "#{changeset.changes[field]} #{error}"
-    end
+  def render("update.json", %{status: :error, errors: errors}) do
+    errors = for {field, error} <- errors, do: "#{field} #{error}"
     %{status: :error, errors: errors}
   end
 

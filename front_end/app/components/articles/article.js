@@ -25,15 +25,18 @@ export default class Article extends React.Component {
 
   handleSaveArticle() {
     let params = {
-      title: this.refs.articleTitle.value,
-      url: this.refs.articleUrl.value,
-      category: this.refs.articleCategory.value
+      article: {
+        title: this.refs.articleTitle.value,
+        url: this.refs.articleUrl.value,
+        category: this.refs.articleCategory.value
+      }
     }
 
     this.data.putArticle(this.props.params.id, params, (response) => {
       if (response.status == "ok")
-        this.handleToggleEdit();
+        this.setState({article: response.article, edit: false});
       else if (response.status == "error")
+        // Display form errors
         console.log(response.errors);
     });
   }

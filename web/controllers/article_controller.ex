@@ -5,6 +5,8 @@ defmodule Reader.ArticleController do
   alias Reader.ArticleNormalizer
   import Logger
 
+  plug :scrub_params, "article" when action in [:create, :update]
+
   def index(conn, _params) do
     render conn, articles: Repo.all(Article.articles_by_category)
   end
@@ -27,15 +29,15 @@ defmodule Reader.ArticleController do
   #   end
   # end
 
-  def update(conn, %{"id" => id} = params) do
+  def update(conn, %{"id" => id, "article" => params}) do
     article = Repo.get!(Article, id)
     changeset = Article.changeset(article, params)
 
     case Repo.update(changeset) do
       {:ok, article} ->
-        render conn, status: :ok
+        render conn, status: :ok, article: article
       {:error, changeset} ->
-        render conn, status: :error, changeset: changeset
+        render conn, status: :error, errors: changeset.errors
     end
   end
 
