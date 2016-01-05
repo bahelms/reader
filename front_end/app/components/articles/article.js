@@ -30,11 +30,23 @@ export default class Article extends React.Component {
         url: this.refs.articleUrl.value,
         category: this.refs.articleCategory.value
       }
-    }
+    };
 
     this.data.putArticle(this.props.params.id, params, (response) => {
       if (response.status == "ok")
         this.setState({article: response.article, edit: false});
+      else if (response.status == "error")
+        // Display form errors
+        console.log(response.errors);
+    });
+  }
+
+  handleToggleRead() {
+    let params = {article: {read: true}};
+
+    this.data.putArticle(this.props.params.id, params, (response) => {
+      if (response.status == "ok")
+        this.setState({article: response.article});
       else if (response.status == "error")
         // Display form errors
         console.log(response.errors);
@@ -85,7 +97,8 @@ export default class Article extends React.Component {
         <ArticleControlButtons
           isEdit={false}
           article={this.state.article}
-          editArticle={this.handleToggleEdit.bind(this)} />
+          editArticle={this.handleToggleEdit.bind(this)}
+          readArticle={this.handleToggleRead.bind(this)} />
       </div>
     );
   }

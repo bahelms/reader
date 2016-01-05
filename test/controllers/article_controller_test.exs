@@ -17,7 +17,8 @@ defmodule Reader.ArticleControllerTest do
     {:ok, ids: ids}
   end
 
-  @doc "get /articles"
+  ### "get /articles" ###
+
   test "returns all articles ordered by category" do
     conn = get conn, article_path(conn, :index)
     {:ok, json} = Poison.decode(conn.resp_body)
@@ -49,7 +50,8 @@ defmodule Reader.ArticleControllerTest do
     ]
   end
 
-  @doc "get /article/:id"
+  ### "get /article/:id" ###
+
   test "returns the article for id as json", %{ids: [id | ids]} do
     conn = get conn, article_path(conn, :show, id)
     {:ok, json} = Poison.decode(conn.resp_body)
@@ -62,14 +64,16 @@ defmodule Reader.ArticleControllerTest do
       "favorite" => false }
   end
 
-  @doc "get /article_categories"
+  ### "get /article_categories" ###
+
   test "returns a unique list of all unread categories in asc order, titleized" do
     conn = get conn, article_path(conn, :article_categories)
     {:ok, json} = Poison.decode(conn.resp_body)
     assert json["categories"] == ["Random", "Test1", "Test2", "Test3"]
   end
 
-  @doc "post /articles"
+  ### "post /articles" ###
+
   test "creates a new article record" do
     params = %{
       article: %{
@@ -81,11 +85,24 @@ defmodule Reader.ArticleControllerTest do
     assert article != nil
   end
 
-  @doc "put /articles/:id"
+  ### "put /articles/:id" ###
+
   test "updates the given article" do
     params = %{article: %{url: "update.four.com"}}
     conn = put conn, article_path(conn, :update, %Article{id: 4}), params
     assert Repo.get(Article, 4).url == "update.four.com"
+  end
+
+  test "updates favorite status" do
+    params = %{article: %{favorite: true}}
+    conn = put conn, article_path(conn, :update, %Article{id: 3}), params
+    assert Repo.get(Article, 3).favorite == true
+  end
+
+  test "updates read status" do
+    params = %{article: %{read: true}}
+    conn = put conn, article_path(conn, :update, %Article{id: 1}), params
+    assert Repo.get(Article, 1).read == true
   end
 
   test "returns a status of 'ok' upon update" do
@@ -113,4 +130,3 @@ defmodule Reader.ArticleControllerTest do
                      "errors" => ["url has already been taken"]}
   end
 end
-
