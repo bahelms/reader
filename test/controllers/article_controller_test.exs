@@ -2,17 +2,19 @@ defmodule Reader.ArticleControllerTest do
   use Reader.ConnCase
   alias Reader.Article
   require Logger
-  import Ecto.Query
 
   setup do
-    ids = [%Article{id: 1, category: "test1", url: "one.com"},
-           %Article{id: 2, category: "test1", url: "two.com"},
-           %Article{id: 3, category: "test2", url: "three.com"},
-           %Article{id: 4, category: "test3", url: "four.com"}]
-         |> Enum.map fn(article) ->
-           {:ok, article} = Repo.insert(article)
-           article.id
-         end
+    articles = [
+      %Article{id: 1, category: "test1", url: "one.com"},
+      %Article{id: 2, category: "test1", url: "two.com"},
+      %Article{id: 3, category: "test2", url: "three.com"},
+      %Article{id: 4, category: "test3", url: "four.com"}
+    ]
+
+   ids = Enum.map articles, fn(article) ->
+     {:ok, article} = Repo.insert(article)
+     article.id
+   end
 
     {:ok, ids: ids}
   end
@@ -52,7 +54,7 @@ defmodule Reader.ArticleControllerTest do
 
   ### "get /article/:id" ###
 
-  test "returns the article for id as json", %{ids: [id | ids]} do
+  test "returns the article for id as json", %{ids: [id | _ids]} do
     conn = get conn, article_path(conn, :show, id)
     {:ok, json} = Poison.decode(conn.resp_body)
     assert json == %{
@@ -80,7 +82,7 @@ defmodule Reader.ArticleControllerTest do
         title: "hey there", url: "http://hey-there.com", category: "shrimp"
       }
     }
-    conn = post conn, article_path(conn, :create, params)
+    post conn, article_path(conn, :create, params)
     article = Repo.get_by(Article, url: "http://hey-there.com")
     assert article != nil
   end
@@ -89,19 +91,19 @@ defmodule Reader.ArticleControllerTest do
 
   test "updates the given article" do
     params = %{article: %{url: "update.four.com"}}
-    conn = put conn, article_path(conn, :update, %Article{id: 4}), params
+    put conn, article_path(conn, :update, %Article{id: 4}), params
     assert Repo.get(Article, 4).url == "update.four.com"
   end
 
   test "updates favorite status" do
     params = %{article: %{favorite: true}}
-    conn = put conn, article_path(conn, :update, %Article{id: 3}), params
+    put conn, article_path(conn, :update, %Article{id: 3}), params
     assert Repo.get(Article, 3).favorite == true
   end
 
   test "updates read status" do
     params = %{article: %{read: true}}
-    conn = put conn, article_path(conn, :update, %Article{id: 1}), params
+    put conn, article_path(conn, :update, %Article{id: 1}), params
     assert Repo.get(Article, 1).read == true
   end
 

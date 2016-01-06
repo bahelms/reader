@@ -19,19 +19,7 @@ export default class Article extends React.Component {
     return (value) ? "true" : "false";
   }
 
-  handleToggleEdit() {
-    this.setState({edit: !this.state.edit});
-  }
-
-  handleSaveArticle() {
-    let params = {
-      article: {
-        title: this.refs.articleTitle.value,
-        url: this.refs.articleUrl.value,
-        category: this.refs.articleCategory.value
-      }
-    };
-
+  updateArticle(params) {
     this.data.putArticle(this.props.params.id, params, (response) => {
       if (response.status == "ok")
         this.setState({article: response.article, edit: false});
@@ -41,15 +29,35 @@ export default class Article extends React.Component {
     });
   }
 
-  handleToggleRead() {
-    let params = {article: {read: true}};
+  handleToggleEdit() {
+    this.setState({edit: !this.state.edit});
+  }
 
-    this.data.putArticle(this.props.params.id, params, (response) => {
-      if (response.status == "ok")
-        this.setState({article: response.article});
-      else if (response.status == "error")
-        // Display form errors
-        console.log(response.errors);
+  handleSaveArticle() {
+    this.updateArticle({
+      article: {
+        title: this.refs.articleTitle.value,
+        url: this.refs.articleUrl.value,
+        category: this.refs.articleCategory.value
+      }
+    });
+  }
+
+  handleToggleRead() {
+    this.updateArticle({
+      article: {
+        read: !this.state.article.read,
+        favorite: false
+      }
+    });
+  }
+
+  handleToggleFavorite() {
+    this.updateArticle({
+      article: {
+        favorite: !this.state.article.favorite,
+        read: true
+      }
     });
   }
 
@@ -98,7 +106,8 @@ export default class Article extends React.Component {
           isEdit={false}
           article={this.state.article}
           editArticle={this.handleToggleEdit.bind(this)}
-          readArticle={this.handleToggleRead.bind(this)} />
+          toggleFavoriteStatus={this.handleToggleFavorite.bind(this)}
+          toggleReadStatus={this.handleToggleRead.bind(this)} />
       </div>
     );
   }

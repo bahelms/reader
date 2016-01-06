@@ -13,10 +13,13 @@ export default class ArticleControlButtons extends React.Component {
     return(
       <div className="row" id="article_control_buttons">
         <div className="col-md-4 col-md-offset-4">
-          <button className="btn btn-info" onClick={this.props.readArticle}>
+          <button className="btn btn-info" onClick={this.props.toggleReadStatus}>
             {this.readStatus()}
           </button>
-          <button className="btn btn-success">{this.favoriteStatus()}</button>
+          <button className="btn btn-success"
+            onClick={this.props.toggleFavoriteStatus}>
+            {this.favoriteStatus()}
+          </button>
           <button className="btn btn-warning" onClick={this.props.editArticle}>
             Edit
           </button>
