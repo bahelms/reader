@@ -4,6 +4,7 @@ defmodule Reader.ArticleController do
   alias Reader.BulkArticles
   alias Reader.ArticleNormalizer
   import Logger
+  import Ecto.Query
 
   plug :scrub_params, "article" when action in [:create, :update]
 
@@ -28,6 +29,13 @@ defmodule Reader.ArticleController do
   #       render conn, :new, changeset: changeset, bulk_changeset: bulk_changeset
   #   end
   # end
+
+  def delete(conn, %{"id" => id}) do
+    Article
+      |> where([a], a.id == ^id)
+      |> Repo.delete_all
+    redirect conn, to: article_path(conn, :index)
+  end
 
   def update(conn, %{"id" => id, "article" => params}) do
     article = Repo.get!(Article, id)
@@ -78,11 +86,6 @@ defmodule Reader.ArticleController do
   #   Article.changeset(article, ArticleNormalizer.boolean(params))
   #     |> Repo.update
   #   redirect conn, to: article_path(conn, :show, article)
-  # end
-
-  # def delete(conn, %{"id" => id}) do
-  #   Repo.get!(Article, id) |> Repo.delete
-  #   redirect conn, to: article_path(conn, :index)
   # end
 
   # def create_bulk(conn, %{"article" => bulk_params}) do

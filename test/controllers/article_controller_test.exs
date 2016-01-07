@@ -19,7 +19,7 @@ defmodule Reader.ArticleControllerTest do
     {:ok, ids: ids}
   end
 
-  ### "get /articles" ###
+  ### get /articles ###
 
   test "returns all articles ordered by category" do
     conn = get conn, article_path(conn, :index)
@@ -52,7 +52,7 @@ defmodule Reader.ArticleControllerTest do
     ]
   end
 
-  ### "get /article/:id" ###
+  ### get /article/:id ###
 
   test "returns the article for id as json", %{ids: [id | _ids]} do
     conn = get conn, article_path(conn, :show, id)
@@ -66,7 +66,7 @@ defmodule Reader.ArticleControllerTest do
       "favorite" => false }
   end
 
-  ### "get /article_categories" ###
+  ### get /article_categories ###
 
   test "returns a unique list of all unread categories in asc order, titleized" do
     conn = get conn, article_path(conn, :article_categories)
@@ -74,7 +74,7 @@ defmodule Reader.ArticleControllerTest do
     assert json["categories"] == ["Random", "Test1", "Test2", "Test3"]
   end
 
-  ### "post /articles" ###
+  ### post /articles ###
 
   test "creates a new article record" do
     params = %{
@@ -87,7 +87,7 @@ defmodule Reader.ArticleControllerTest do
     assert article != nil
   end
 
-  ### "put /articles/:id" ###
+  ### put /articles/:id ###
 
   test "updates the given article" do
     params = %{article: %{url: "update.four.com"}}
@@ -130,5 +130,12 @@ defmodule Reader.ArticleControllerTest do
     {:ok, json} = Poison.decode(conn.resp_body)
     assert json == %{"status" => "error",
                      "errors" => ["url has already been taken"]}
+  end
+
+  ### delete /articles/:id ###
+
+  test "deletes the given article" do
+    delete conn, article_path(conn, :delete, 3)
+    assert Repo.one(from a in Article, select: count(a.id)) == 3
   end
 end
