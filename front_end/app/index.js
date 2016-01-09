@@ -1,12 +1,13 @@
 import "./main.scss";
 import React from "react";
 import ReactDOM from "react-dom";
-import { Router, Route, IndexRoute } from "react-router";
+import { Router, Route, IndexRoute, NotFoundRoute } from "react-router";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 import App from "./components/app";
 import ArticlesIndex from "./components/articles/articles_index";
 import ArticleSelector from "./components/articles/article_selector";
 import Article from "./components/articles/article";
+import ArticleNotFound from "./components/articles/article_not_found";
 import NoMatch from "./components/no_match";
 
 const app = document.createElement("div");

@@ -1,17 +1,19 @@
 import React from "react";
 import Data from "../../utils/data";
 import ArticleControlButtons from "./article_control_buttons";
+import ArticleNotFound from "./article_not_found";
 
 export default class Article extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {article: {}, edit: false};
+    this.state = {article: {}, edit: false, articleFound: false};
     this.server = new Data();
   }
 
   componentDidMount() {
     this.server.getArticle(this.props.params.id, (article) => {
-      this.setState({article: article});
+      if (article)
+        this.setState({article: article, articleFound: true});
     });
   }
 
@@ -45,8 +47,7 @@ export default class Article extends React.Component {
 
   handleDeleteArticle() {
     if (confirm("Are you sure you want to delete this article?")) {
-      this.server.deleteArticle(this.props.params.id, (response) => {
-        console.log(response);
+      this.server.deleteArticle(this.props.params.id, (_response) => {
         window.location = "/articles";
       });
     }
@@ -177,9 +178,9 @@ export default class Article extends React.Component {
   }
 
   render() {
-    if (this.state.edit)
-      return this.editArticle();
+    if (this.state.articleFound)
+      return this.state.edit ? this.editArticle() : this.showArticle();
     else
-      return this.showArticle();
+      return <ArticleNotFound />;
   }
 }
