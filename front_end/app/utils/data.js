@@ -36,4 +36,13 @@ export default class Data {
       failure: (data) => { alert(`Failure: ${data}`); }
     });
   }
+
+  deleteArticle(id, callback) {
+    $.ajax({
+      url: `${this.url}/articles/${id}`,
+      type: "DELETE",
+      success: (response) => { callback(response); },
+      failure: (data) => { alert(`Failure: ${data}`); }
+    });
+  }
 }

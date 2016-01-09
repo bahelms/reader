@@ -6,11 +6,11 @@ export default class Article extends React.Component {
   constructor(props) {
     super(props);
     this.state = {article: {}, edit: false};
-    this.data = new Data();
+    this.server = new Data();
   }
 
   componentDidMount() {
-    this.data.getArticle(this.props.params.id, (article) => {
+    this.server.getArticle(this.props.params.id, (article) => {
       this.setState({article: article});
     });
   }
@@ -20,7 +20,7 @@ export default class Article extends React.Component {
   }
 
   updateArticle(params) {
-    this.data.putArticle(this.props.params.id, params, (response) => {
+    this.server.putArticle(this.props.params.id, params, (response) => {
       if (response.status == "ok")
         this.setState({article: response.article, edit: false});
       else if (response.status == "error")
@@ -41,6 +41,15 @@ export default class Article extends React.Component {
         category: this.refs.articleCategory.value
       }
     });
+  }
+
+  handleDeleteArticle() {
+    if (confirm("Are you sure you want to delete this article?")) {
+      this.server.deleteArticle(this.props.params.id, (response) => {
+        console.log(response);
+        window.location = "/articles";
+      });
+    }
   }
 
   handleToggleRead() {
@@ -106,6 +115,7 @@ export default class Article extends React.Component {
           isEdit={false}
           article={this.state.article}
           editArticle={this.handleToggleEdit.bind(this)}
+          deleteArticle={this.handleDeleteArticle.bind(this)}
           toggleFavoriteStatus={this.handleToggleFavorite.bind(this)}
           toggleReadStatus={this.handleToggleRead.bind(this)} />
       </div>

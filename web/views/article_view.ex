@@ -3,6 +3,7 @@ defmodule Reader.ArticleView do
 
   def render("index.json", %{articles: articles}), do: articles
   def render("show.json", %{article: article}), do: article
+  def render("delete.json", %{status: status}), do: %{status: status}
   def render("update.json", a = %{status: :ok, article: article}) do
     %{status: :ok, article: article}
   end

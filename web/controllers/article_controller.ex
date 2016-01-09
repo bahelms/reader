@@ -34,7 +34,7 @@ defmodule Reader.ArticleController do
     Article
       |> where([a], a.id == ^id)
       |> Repo.delete_all
-    redirect conn, to: article_path(conn, :index)
+    render conn, status: :success
   end
 
   def update(conn, %{"id" => id, "article" => params}) do

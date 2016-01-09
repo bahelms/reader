@@ -25,7 +25,9 @@ export default class ArticleControlButtons extends React.Component {
           </button>
         </div>
         <div className="col-md-1 pull-right">
-          <button className="btn btn-danger">Delete</button>
+          <button className="btn btn-danger" onClick={this.props.deleteArticle}>
+            Delete
+          </button>
         </div>
       </div>
     );
