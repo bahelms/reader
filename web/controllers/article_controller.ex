@@ -2,7 +2,6 @@ defmodule Reader.ArticleController do
   use Reader.Web, :controller
   alias Reader.Article
   alias Reader.BulkArticles
-  alias Reader.ArticleNormalizer
   import Logger
   import Ecto.Query
 
