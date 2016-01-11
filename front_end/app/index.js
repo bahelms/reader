@@ -7,7 +7,6 @@ import App from "./components/app";
 import ArticlesIndex from "./components/articles/articles_index";
 import ArticleSelector from "./components/articles/article_selector";
 import Article from "./components/articles/article";
-import ArticleNotFound from "./components/articles/article_not_found";
 import NoMatch from "./components/no_match";
 
 const app = document.createElement("div");

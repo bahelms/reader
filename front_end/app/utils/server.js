@@ -1,4 +1,4 @@
-export default class Data {
+export default class Server {
   constructor() {
     this.url = "http://localhost:4000";
   }

@@ -13,8 +13,8 @@ defmodule Reader.Article do
     timestamps
   end
 
-  @required_fields ~w(url category)
-  @optional_fields ~w(title read favorite)
+  @required_fields ~w(url category title)
+  @optional_fields ~w(read favorite)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

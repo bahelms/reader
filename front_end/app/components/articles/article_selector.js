@@ -1,15 +1,15 @@
 import React from "react";
-import Data from "../../utils/data";
+import Server from "../../utils/server";
 
 export default class ArticleSelector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {categories: []};
-    this.data = new Data();
+    this.server = new Server();
   }
 
   componentDidMount() {
-    this.data.getArticleCategories((categories) => {
+    this.server.getArticleCategories((categories) => {
       this.setState({categories: categories});
     });
   }

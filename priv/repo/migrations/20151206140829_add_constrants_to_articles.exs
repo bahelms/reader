@@ -5,6 +5,7 @@ defmodule Reader.Repo.Migrations.AddConstrantsToArticles do
     alter table(:articles) do
       modify :url, :text, null: false
       modify :category, :text, null: false
+      modify :title, :text, null: false
     end
   end
 end

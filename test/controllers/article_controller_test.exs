@@ -5,10 +5,10 @@ defmodule Reader.ArticleControllerTest do
 
   setup do
     articles = [
-      %Article{id: 1, category: "test1", url: "one.com"},
-      %Article{id: 2, category: "test1", url: "two.com"},
-      %Article{id: 3, category: "test2", url: "three.com"},
-      %Article{id: 4, category: "test3", url: "four.com"}
+      %Article{id: 1, category: "test1", url: "one.com", title: "some title"},
+      %Article{id: 2, category: "test1", url: "two.com", title: "some title"},
+      %Article{id: 3, category: "test2", url: "three.com", title: "some title"},
+      %Article{id: 4, category: "test3", url: "four.com", title: "some title"}
     ]
 
    ids = Enum.map articles, fn(article) ->
@@ -28,25 +28,25 @@ defmodule Reader.ArticleControllerTest do
       %{"id" => 1,
         "url" => "one.com",
         "category" => "test1",
-        "title" => nil,
+        "title" => "some title",
         "read" => false,
         "favorite" => false},
       %{"id" => 2,
         "url" => "two.com",
         "category" => "test1",
-        "title" => nil,
+        "title" => "some title",
         "read" => false,
         "favorite" => false},
       %{"id" => 3,
         "url" => "three.com",
         "category" => "test2",
-        "title" => nil,
+        "title" => "some title",
         "read" => false,
         "favorite" => false},
       %{"id" => 4,
         "url" => "four.com",
         "category" => "test3",
-        "title" => nil,
+        "title" => "some title",
         "read" => false,
         "favorite" => false},
     ]
@@ -61,7 +61,7 @@ defmodule Reader.ArticleControllerTest do
       "id" => 1,
       "url" => "one.com",
       "category" => "test1",
-      "title" => nil,
+      "title" => "some title",
       "read" => false,
       "favorite" => false }
   end
@@ -117,7 +117,7 @@ defmodule Reader.ArticleControllerTest do
         "id" => 4,
         "category" => "test3",
         "url" => "a new URL",
-        "title" => nil,
+        "title" => "some title",
         "read" => false,
         "favorite" => false
       }

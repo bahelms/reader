@@ -1,19 +1,22 @@
 import React from "react";
-import Data from "../../utils/data";
+import Server from "../../utils/server";
 import ArticleControlButtons from "./article_control_buttons";
 import ArticleNotFound from "./article_not_found";
+import ArticleEditErrors from "./article_edit_errors";
 
 export default class Article extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {article: {}, edit: false, articleFound: false};
-    this.server = new Data();
+    this.state = {article: {}, edit: false, articleFound: true};
+    this.server = new Server();
   }
 
   componentDidMount() {
     this.server.getArticle(this.props.params.id, (article) => {
       if (article)
         this.setState({article: article, articleFound: true});
+      else
+        this.setState({articleFound: false});
     });
   }
 
@@ -26,13 +29,12 @@ export default class Article extends React.Component {
       if (response.status == "ok")
         this.setState({article: response.article, edit: false});
       else if (response.status == "error")
-        // Display form errors
-        console.log(response.errors);
+        this.setState({errors: response.errors});
     });
   }
 
   handleToggleEdit() {
-    this.setState({edit: !this.state.edit});
+    this.setState({edit: !this.state.edit, errors: []});
   }
 
   handleSaveArticle() {
@@ -126,6 +128,7 @@ export default class Article extends React.Component {
   editArticle() {
     return(
       <div className="row">
+        <ArticleEditErrors errors={this.state.errors} />
         <div className="row">
           <div className="col-md-1 col-md-offset-4 text-right">
             <strong>Title:</strong>
