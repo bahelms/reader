@@ -7,6 +7,7 @@ import App from "./components/app";
 import ArticlesIndex from "./components/articles/articles_index";
 import ArticleSelector from "./components/articles/article_selector";
 import Article from "./components/articles/article";
+import ArticlesForm from "./components/articles/articles_form";
 import NoMatch from "./components/no_match";
 
 const app = document.createElement("div");
@@ -16,7 +17,8 @@ ReactDOM.render((
   <Router history={createBrowserHistory()}>
     <Route path="/" component={App}>
       <IndexRoute component={ArticleSelector} />
-      <Route path="articles" component={ArticlesIndex} />
+      <Route path="articles" component={ArticlesIndex}> />
+      <Route path="new" component={ArticlesForm} />
       <Route path="articles/:id" component={Article} />
       <Route path="*" component={NoMatch} />
     </Route>
