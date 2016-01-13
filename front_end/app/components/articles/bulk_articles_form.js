@@ -1,9 +1,9 @@
 import React from "react";
 
-export default class ArticlesForm extends React.Component {
+export default class BulkArticlesForm extends React.Component {
   render() {
     return(
-      <div>
+      <div id="bulk_articles_form">
         <div className="row">
           <div className="col-md-4 col-md-offset-2">
             <h2>Add bulk articles</h2>

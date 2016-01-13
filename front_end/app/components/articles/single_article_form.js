@@ -3,14 +3,14 @@ import React from "react";
 export default class SingleArticleForm extends React.Component {
   render() {
     return(
-      <div>
+      <div id="single_article_form">
         <div className="row">
           <div className="col-md-2 col-md-offset-2">
             <h2>Add article</h2>
           </div>
         </div>
 
-        <form className="form-inline" id="articles_form">
+        <form className="form-inline">
           <div className="row">
             <div className="col-md-8 col-md-offset-2">
               <div className="form-group">
