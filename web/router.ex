@@ -17,7 +17,7 @@ defmodule Reader.Router do
     pipe_through :api
 
     get "/article_categories", ArticleController, :article_categories
-    resources "articles", ArticleController, except: [:edit, :create]
+    resources "articles", ArticleController, except: [:edit]
     # put "/article_status/:id", ArticleController, :update_status
     # post "/bulk_articles", ArticleController, :create_bulk
   end

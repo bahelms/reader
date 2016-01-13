@@ -15,19 +15,18 @@ defmodule Reader.ArticleController do
     render conn, article: Repo.get!(Article, id)
   end
 
-  # def create(conn, article_params) do
-  #   changeset = Article.changeset(%Article{}, article_params)
-  #   bulk_changeset = Article.changeset(%Article{})
+  def create(conn, %{"type" => "create_article", "article" => params}) do
+    IO.puts inspect params
+    changeset = Article.changeset(%Article{}, params)
 
-  #   case Repo.insert(changeset) do
-  #     {:ok, article} ->
-  #       Reader.ArticleWorker.update_title(article)
-  #       put_flash(conn, :info, "Article saved")
-  #         |> redirect to: article_path(conn, :new)
-  #     {:error, changeset} ->
-  #       render conn, :new, changeset: changeset, bulk_changeset: bulk_changeset
-  #   end
-  # end
+    case Repo.insert(changeset) do
+      {:ok, article} ->
+        # Reader.ArticleWorker.update_title(article)
+        render conn, status: :ok, message: "Article saved"
+      {:error, changeset} ->
+        render conn, status: :error, message: changeset
+    end
+  end
 
   def delete(conn, %{"id" => id}) do
     Article
