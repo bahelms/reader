@@ -18,8 +18,9 @@ defmodule Reader.Web do
 
   def model do
     quote do
-      use Ecto.Model
-
+      use Ecto.Schema
+      import Ecto
+      import Ecto.Changeset
     end
   end
 
@@ -28,7 +29,7 @@ defmodule Reader.Web do
       use Phoenix.Controller
 
       alias Reader.Repo
-      import Ecto.Model
+      import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
       import Reader.Router.Helpers
@@ -64,7 +65,7 @@ defmodule Reader.Web do
       use Phoenix.Channel
 
       alias Reader.Repo
-      import Ecto.Model
+      import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
     end
