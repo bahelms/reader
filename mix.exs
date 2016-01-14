@@ -33,10 +33,10 @@ defmodule Reader.Mixfile do
      {:corsica, "~> 0.4.0"},
      {:floki, "~> 0.5.0"},
      {:httpoison, "~> 0.7.4"},
-     {:phoenix, "~> 1.0.2"},
-     {:phoenix_ecto, "~> 1.1"},
-     {:phoenix_html, "~> 2.1"},
+     {:phoenix, "~> 1.1.2"},
+     {:phoenix_ecto, "~> 2.0"},
+     {:phoenix_html, "~> 2.3"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:postgrex, ">= 0.0.0"},]
+     {:postgrex, "~> 0.10"},]
   end
 end
