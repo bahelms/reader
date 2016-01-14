@@ -77,15 +77,16 @@ defmodule Reader.ArticleControllerTest do
   ### post /articles ###
 
   test "when type is 'create_article', it creates a new article record" do
+    url = "http://google.com"
     params = %{
-      article: %{
-        title: "hey there", url: "http://hey-there.com", category: "shrimp"
-      },
+      article: %{ title: "hey there", url: url, category: "shrimp" },
       type: :create_article
     }
     post conn, article_path(conn, :create, params)
-    article = Repo.get_by(Article, url: "http://hey-there.com")
-    assert article != nil
+    :timer.sleep(2000)
+
+    article = Repo.get_by(Article, url: url)
+    assert article.title == "Google"
   end
 
   test "when type is 'create_bulk_articles', it creates many article records" do

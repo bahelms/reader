@@ -16,12 +16,11 @@ defmodule Reader.ArticleController do
   end
 
   def create(conn, %{"type" => "create_article", "article" => params}) do
-    IO.puts inspect params
     changeset = Article.changeset(%Article{}, params)
 
     case Repo.insert(changeset) do
       {:ok, article} ->
-        # Reader.ArticleWorker.update_title(article)
+        Reader.ArticleWorker.update_title(article)
         render conn, status: :ok, message: "Article saved"
       {:error, changeset} ->
         render conn, status: :error, message: changeset
