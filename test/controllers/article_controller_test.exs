@@ -79,7 +79,7 @@ defmodule Reader.ArticleControllerTest do
   test "when type is 'create_article', it creates a new article record" do
     url = "http://google.com"
     params = %{
-      article: %{ title: "hey there", url: url, category: "shrimp" },
+      article: %{url: url, category: "shrimp"},
       type: :create_article
     }
     post conn, article_path(conn, :create, params)

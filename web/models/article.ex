@@ -7,7 +7,7 @@ defmodule Reader.Article do
   schema "articles" do
     field :url, :string
     field :category, :string
-    field :title, :string
+    field :title, :string, default: "NO TITLE"
     field :read, :boolean, default: false
     field :favorite, :boolean, default: false
     timestamps
