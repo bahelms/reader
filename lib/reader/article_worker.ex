@@ -25,5 +25,6 @@ defmodule Reader.ArticleWorker do
 
   defp _parse_title(response) do
     [{"title", _, [title|_]} |_] = Floki.find(response.body, "title")
+    title
   end
 end

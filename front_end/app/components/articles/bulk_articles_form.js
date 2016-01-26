@@ -25,7 +25,9 @@ export default class BulkArticlesForm extends React.Component {
                   placeholder="Category" />
               </div>
               <div className="form-group">
-                <button className="btn">Submit</button>
+                <button className="btn" onClick={this.props.createArticles}>
+                  Submit
+                </button>
               </div>
             </div>
           </div>

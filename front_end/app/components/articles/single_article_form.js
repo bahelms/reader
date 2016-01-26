@@ -26,7 +26,9 @@ export default class SingleArticleForm extends React.Component {
                   placeholder="Title" />
               </div>
               <div className="form-group">
-                <button className="btn">Submit</button>
+                <button className="btn" onClick={this.props.createArticle}>
+                  Submit
+                </button>
               </div>
             </div>
           </div>
