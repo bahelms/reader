@@ -1,4 +1,5 @@
 import React from "react";
+import Server from "../../utils/server";
 import SingleArticleForm from "./single_article_form";
 import BulkArticlesForm from "./bulk_articles_form";
 
@@ -6,21 +7,15 @@ export default class ArticlesForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-
-  handleCreateArticle(event) {
-    event.preventDefault();
-    // post article
-    // update flash
-    alert("To be continued...");
+    this.server = new Server();
   }
 
   render() {
     return(
       <div>
-        <SingleArticleForm createArticle={this.handleCreateArticle}/>
+        <SingleArticleForm server={this.server} />
         <hr />
-        <BulkArticlesForm createArticles={this.handleCreateArticle}/>
+        <BulkArticlesForm server={this.server} />
       </div>
     );
   }

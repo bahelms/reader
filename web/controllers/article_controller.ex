@@ -16,10 +16,11 @@ defmodule Reader.ArticleController do
   end
 
   def create(conn, %{"type" => "create_article", "article" => params}) do
-    changeset = Article.changeset(%Article{}, params)
+    changeset = Article.changeset(%Article{}, _filter(params))
 
     case Repo.insert(changeset) do
       {:ok, article} ->
+        # Only do this if title is nil or NO TITLE
         Reader.ArticleWorker.update_title(article)
         render conn, status: :ok, message: "Article saved"
       {:error, changeset} ->
@@ -51,15 +52,21 @@ defmodule Reader.ArticleController do
       |> Article.unread
       |> Article.ordered_by_category
       |> Repo.all
-      |> Enum.map(&titleize/1)
+      |> Enum.map(&_titleize/1)
     json conn, %{categories: ["Random" | categories]}
   end
 
-  defp titleize(string) do
+  defp _titleize(string) do
     string
       |> String.split("_")
       |> Enum.map(&(String.capitalize(&1)))
       |> Enum.join(" ")
+  end
+
+  defp _filter(params) do
+    cond do
+      params["title"] == nil -> Map.drop(params, ["title"])
+    end
   end
 
   # def index(conn, %{"category" => category}) do

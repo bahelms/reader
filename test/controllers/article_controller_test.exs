@@ -83,10 +83,22 @@ defmodule Reader.ArticleControllerTest do
       type: :create_article
     }
     post conn, article_path(conn, :create, params)
-    :timer.sleep(2000)
+    :timer.sleep(1000)
 
     article = Repo.get_by(Article, url: url)
     assert article.title == "Google"
+  end
+
+  test "when title is nil, it sets default" do
+    url = "google.com"
+    params = %{
+      article: %{url: url, category: "shrimp", title: nil},
+      type: :create_article
+    }
+    post conn, article_path(conn, :create, params)
+    :timer.sleep(1000)
+    article = Repo.get_by(Article, url: url)
+    assert article.title == "NO TITLE"
   end
 
   test "when type is 'create_bulk_articles', it creates many article records" do

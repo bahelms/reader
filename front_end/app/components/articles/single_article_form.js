@@ -1,6 +1,24 @@
 import React from "react";
 
 export default class SingleArticleForm extends React.Component {
+  handleCreateArticle(event) {
+    event.preventDefault();
+    this.props.server.postArticle({
+      type: "create_article",
+      article: {
+        title: this.refs.title.value,
+        url: this.refs.url.value,
+        category: this.refs.category.value
+      }
+    }, this.handlePostResponse)
+  }
+
+  handlePostResponse(data) {
+    console.log(data);
+    // update flash
+    // clear inputs
+  }
+
   render() {
     return(
       <div id="single_article_form">
@@ -14,19 +32,20 @@ export default class SingleArticleForm extends React.Component {
           <div className="row">
             <div className="col-md-8 col-md-offset-2">
               <div className="form-group">
-                <input type="text" name="url" className="form-control"
+                <input type="text" name="url" className="form-control" ref="url"
                   placeholder="URL" />
               </div>
               <div className="form-group">
                 <input type="text" name="category" className="form-control"
-                  placeholder="Category" />
+                  ref="category" placeholder="Category" />
               </div>
               <div className="form-group">
                 <input type="text" name="title" className="form-control"
-                  placeholder="Title" />
+                  ref="title" placeholder="Title" />
               </div>
               <div className="form-group">
-                <button className="btn" onClick={this.props.createArticle}>
+                <button className="btn"
+                  onClick={this.handleCreateArticle.bind(this)}>
                   Submit
                 </button>
               </div>
