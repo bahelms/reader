@@ -1,7 +1,5 @@
 # The Reader
 
-Heroku URL: [fathomless-island-3495.herokuapp.com](https://fathomless-island-3495.herokuapp.com)
-
 ## Start in development
 From /front_end:  
 
