@@ -20,8 +20,9 @@ defmodule Reader.ArticleController do
 
     case Repo.insert(changeset) do
       {:ok, article} ->
-        # Only do this if title is nil or NO TITLE
-        Reader.ArticleWorker.update_title(article)
+        if article.title in [nil, "NO TITLE"] do
+          Reader.ArticleWorker.update_title(article)
+        end
         render conn, status: :ok, message: "Article saved"
       {:error, changeset} ->
         render conn, status: :error, message: changeset

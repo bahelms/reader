@@ -90,13 +90,18 @@ defmodule Reader.ArticleControllerTest do
   end
 
   test "when title is nil, it sets default" do
-    url = "google.com"
+    url = "google.coml"
     params = %{
       article: %{url: url, category: "shrimp", title: nil},
       type: :create_article
     }
-    post conn, article_path(conn, :create, params)
-    :timer.sleep(1000)
+
+    try do
+      post conn, article_path(conn, :create, params)
+    rescue
+      _ -> "Bad URL"
+    end
+
     article = Repo.get_by(Article, url: url)
     assert article.title == "NO TITLE"
   end
