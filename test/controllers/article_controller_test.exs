@@ -80,7 +80,7 @@ defmodule Reader.ArticleControllerTest do
     url = "http://google.com"
     params = %{
       article: %{url: url, category: "shrimp"},
-      type: :create_article
+      type: :create_article,
     }
     post conn, article_path(conn, :create, params)
     :timer.sleep(1000)
@@ -96,14 +96,23 @@ defmodule Reader.ArticleControllerTest do
       type: :create_article
     }
 
-    try do
-      post conn, article_path(conn, :create, params)
-    rescue
-      _ -> "Bad URL"
-    end
-
+    post conn, article_path(conn, :create, params)
     article = Repo.get_by(Article, url: url)
     assert article.title == "NO TITLE"
+  end
+
+  test "when title is given, it does not replace it with remote title" do
+    url = "http://google.com"
+    params = %{
+      article: %{url: url, category: "shrimp", title: "Shrimp Tasty"},
+      type: :create_article,
+    }
+    post conn, article_path(conn, :create, params)
+    :timer.sleep(1000)
+
+    article = Repo.get_by(Article, url: url)
+    :timer.sleep(1000)
+    assert article.title == "Shrimp Tasty"
   end
 
   test "when type is 'create_bulk_articles', it creates many article records" do

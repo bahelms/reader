@@ -67,6 +67,7 @@ defmodule Reader.ArticleController do
   defp _filter(params) do
     cond do
       params["title"] == nil -> Map.drop(params, ["title"])
+      true                   -> params
     end
   end
 
