@@ -5,16 +5,24 @@ defmodule Reader.ArticleView do
   def render("show.json", %{article: article}), do: article
   def render("delete.json", %{status: status}), do: %{status: status}
 
-  def render("create.json", params) do
-    %{status: params[:status], message: params[:message]}
+  def render("create.json", %{status: :ok, message: message}) do
+    %{status: :ok, message: message}
   end
 
-  def render("update.json", a = %{status: :ok, article: article}) do
+  def render("create.json", %{status: :error, errors: errors}) do
+    %{status: :error, errors: humanize_errors(errors)}
+  end
+
+  def render("update.json",  %{status: :ok, article: article}) do
     %{status: :ok, article: article}
   end
 
   def render("update.json", %{status: :error, errors: errors}) do
-    errors = for {field, error} <- errors, do: "#{field} #{error}"
-    %{status: :error, errors: errors}
+    %{status: :error, errors: humanize_errors(errors)}
+  end
+
+  defp humanize_errors(errors) do
+    for {field, error} <- errors, do: "#{humanize(field)} #{error}"
   end
 end
+

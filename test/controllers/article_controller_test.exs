@@ -160,7 +160,7 @@ defmodule Reader.ArticleControllerTest do
     conn = put conn, article_path(conn, :update, %Article{id: 4}), params
     {:ok, json} = Poison.decode(conn.resp_body)
     assert json == %{"status" => "error",
-                     "errors" => ["url has already been taken"]}
+                     "errors" => ["Url has already been taken"]}
   end
 
   ### delete /articles/:id ###

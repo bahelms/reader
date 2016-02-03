@@ -1,9 +1,10 @@
 import React from "react";
+import FlashMessage from "../layout/flash"
 
 export default class SingleArticleForm extends React.Component {
   constructor(props) {
     super(props);
-    this.defaultState = {url: "", category: "", title: ""};
+    this.defaultState = {url: "", category: "", title: "", flash: null};
     this.state = this.defaultState;
   }
 
@@ -22,28 +23,31 @@ export default class SingleArticleForm extends React.Component {
   handlePostResponse(data) {
     console.log(data);
     if (data.status == "ok")
-      this.setState(this.defaultState);
-    else {
-      // set flash
-    }
+      this.setState(
+        Object.assign(this.defaultState, this.setFlash("info", data.message)));
+    else
+      this.setState(
+        Object.assign(this.state, this.setFlash("danger", data.errors)));
   }
 
-  handleURLInput(event) { this.setState({url: event.target.value}); }
-  handleTitleInput(event) { this.setState({title: event.target.value}); }
+  handleURLInput(event)      { this.setState({url: event.target.value}); }
+  handleTitleInput(event)    { this.setState({title: event.target.value}); }
   handleCategoryInput(event) { this.setState({category: event.target.value}); }
 
+  setFlash(alert, message) {
+    return {flash: {alert: alert, message: message}};
+  }
+
   showFlash() {
-    return(
-      <div className="row">
-        <div className={`alert alert-${'danger'} col-md-8 col-md-offset-2`}>
-        </div>
-      </div>
-    );
+    if (this.state.flash)
+      return <FlashMessage flash={this.state.flash} />;
   }
 
   render() {
     return(
       <div id="single_article_form">
+        {this.showFlash()}
+
         <div className="row">
           <div className="col-md-2 col-md-offset-2">
             <h2>Add article</h2>

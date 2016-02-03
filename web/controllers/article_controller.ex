@@ -25,7 +25,7 @@ defmodule Reader.ArticleController do
         end
         render conn, status: :ok, message: "Article saved"
       {:error, changeset} ->
-        render conn, status: :error, message: changeset
+        render conn, status: :error, errors: changeset.errors
     end
   end
 
