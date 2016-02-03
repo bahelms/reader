@@ -6,7 +6,7 @@ export default class FlashMessage extends React.Component {
     if (Array.isArray(message))
       return(
         <ul>
-          {message.map((error) => { return <li>* {error}</li>; })};
+          {message.map((error) => { return <li>{error}</li>; })}
         </ul>
       );
     else
