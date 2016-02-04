@@ -29,6 +29,19 @@ defmodule Reader.ArticleController do
     end
   end
 
+  # def create_bulk(conn, %{"article" => bulk_params}) do
+  #   BulkArticles.parse(bulk_params)
+  #     |> BulkArticles.to_changesets
+  #     |> Enum.map(fn(changeset) ->
+  #       {:ok, article} = Repo.insert(changeset)
+  #       article
+  #     end)
+  #     |> Enum.each(&Reader.ArticleWorker.update_title/1)
+
+  #   put_flash(conn, :info, "Bulk articles saved")
+  #     |> redirect to: "/articles/new"
+  # end
+
   def delete(conn, %{"id" => id}) do
     Article
       |> where([a], a.id == ^id)
@@ -74,37 +87,6 @@ defmodule Reader.ArticleController do
   # def index(conn, %{"category" => category}) do
   #   article_id = pluck_article(String.downcase(category)).id
   #   redirect conn, to: "/articles/#{article_id}"
-  # end
-
-  # def new(conn, _params) do
-  #   changeset = Article.changeset(%Article{})
-  #   render conn, :new, changeset: changeset, bulk_changeset: changeset
-  # end
-
-  # def edit(conn, %{"id" => id}) do
-  #   article = Repo.get!(Article, id)
-  #   changeset = Article.changeset(article)
-  #   render conn, :edit, article: article, changeset: changeset
-  # end
-
-  # def update_status(conn, %{"id" => id, "article" => params}) do
-  #   article = Repo.get!(Article, id)
-  #   Article.changeset(article, ArticleNormalizer.boolean(params))
-  #     |> Repo.update
-  #   redirect conn, to: article_path(conn, :show, article)
-  # end
-
-  # def create_bulk(conn, %{"article" => bulk_params}) do
-  #   BulkArticles.parse(bulk_params)
-  #     |> BulkArticles.to_changesets
-  #     |> Enum.map(fn(changeset) ->
-  #       {:ok, article} = Repo.insert(changeset)
-  #       article
-  #     end)
-  #     |> Enum.each(&Reader.ArticleWorker.update_title/1)
-
-  #   put_flash(conn, :info, "Bulk articles saved")
-  #     |> redirect to: "/articles/new"
   # end
 
   # defp pluck_article("random") do

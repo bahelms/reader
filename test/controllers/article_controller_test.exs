@@ -89,6 +89,21 @@ defmodule Reader.ArticleControllerTest do
     assert article.title == "Google"
   end
 
+  test "when type is 'bulk_articles', it creates many article records" do
+    params = %{
+      type: :bulk_articles,
+      category: :shrimp,
+      articles: "http://google.com\nhttp://yahoo.com\nhttp://lycos.com"
+    }
+    post conn, article_path(conn, :create, params)
+    :timer.sleep(1000)
+
+    google = Repo.get_by(Article, url: "http://google.com")
+    yahoo = Repo.get_by(Article, url: "http://yahoo.com")
+    assert google.title == "Google"
+    assert yahoo.title == "Yahoo"
+  end
+
   test "when title is nil, it sets default" do
     url = "google.coml"
     params = %{
