@@ -18,7 +18,6 @@ defmodule Reader.Router do
 
     get "/article_categories", ArticleController, :article_categories
     resources "articles", ArticleController, except: [:edit]
-    # put "/article_status/:id", ArticleController, :update_status
-    # post "/bulk_articles", ArticleController, :create_bulk
+    post "/bulk_articles", ArticleController, :create_bulk
   end
 end

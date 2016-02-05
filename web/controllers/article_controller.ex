@@ -1,11 +1,9 @@
 defmodule Reader.ArticleController do
   use Reader.Web, :controller
-  alias Reader.Article
-  alias Reader.BulkArticles
-  import Logger
+  alias Reader.{Article, BulkArticles}
   import Ecto.Query
 
-  plug :scrub_params, "article" when action in [:create, :update]
+  plug :scrub_params, "article"  when action in [:create, :update]
 
   def index(conn, _params) do
     render conn, articles: Repo.all(Article.articles_by_category)
@@ -15,7 +13,7 @@ defmodule Reader.ArticleController do
     render conn, article: Repo.get!(Article, id)
   end
 
-  def create(conn, %{"type" => "create_article", "article" => params}) do
+  def create(conn, %{"article" => params}) do
     changeset = Article.changeset(%Article{}, _filter(params))
 
     case Repo.insert(changeset) do
@@ -29,18 +27,26 @@ defmodule Reader.ArticleController do
     end
   end
 
-  # def create_bulk(conn, %{"article" => bulk_params}) do
-  #   BulkArticles.parse(bulk_params)
-  #     |> BulkArticles.to_changesets
-  #     |> Enum.map(fn(changeset) ->
-  #       {:ok, article} = Repo.insert(changeset)
-  #       article
-  #     end)
-  #     |> Enum.each(&Reader.ArticleWorker.update_title/1)
+  def create_bulk(conn, %{"articles" => urls, "category" => category}) do
+    results = BulkArticles.parse(urls, category)
+      |> BulkArticles.to_changesets
+      |> Stream.map(fn(changeset) -> Repo.insert(changeset) end)
+      # |> Enum.filter_map(
+      #   &(elem(&1, 0) == :error),
+      #   &(elem(&1, 1).errors))
 
-  #   put_flash(conn, :info, "Bulk articles saved")
-  #     |> redirect to: "/articles/new"
-  # end
+      fn(result) ->
+        case result do
+          {:ok, article} ->
+            if article.title == "NO TITLE" do
+              Reader.ArticleWorker.update_title(article)
+            end
+          {:error, changeset} ->
+            changeset.errors
+        end
+      end
+    render conn, errors: results
+  end
 
   def delete(conn, %{"id" => id}) do
     Article

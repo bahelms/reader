@@ -38,7 +38,7 @@ export default class ArticleSelector extends React.Component {
           <div className="row">
             <div className="col-md-2 col-md-offset-5">
               <select className="form-control">
-                { this.displayCategories() }
+                {this.displayCategories()}
               </select>
             </div>
           </div>
@@ -46,7 +46,8 @@ export default class ArticleSelector extends React.Component {
 
         <div className="row">
           <div className="col-md-2 col-md-offset-5">
-            <button className="btn btn-lg btn-primary" style={this.articleBtnStyle()}
+            <button className="btn btn-lg btn-primary"
+              style={this.articleBtnStyle()}
               onClick={this.getArticle}>
               Get me an article!
             </button>

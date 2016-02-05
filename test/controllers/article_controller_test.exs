@@ -76,26 +76,43 @@ defmodule Reader.ArticleControllerTest do
 
   ### post /articles ###
 
-  test "when type is 'create_article', it creates a new article record" do
+  test "it creates a new article record" do
     url = "http://google.com"
-    params = %{
-      article: %{url: url, category: "shrimp"},
-      type: :create_article,
-    }
+    params = %{article: %{url: url, category: "shrimp"}}
     post conn, article_path(conn, :create, params)
-    :timer.sleep(1000)
+    :timer.sleep(1100)
 
     article = Repo.get_by(Article, url: url)
     assert article.title == "Google"
   end
 
-  test "when type is 'bulk_articles', it creates many article records" do
+  test "when title is nil, it sets default" do
+    url = "google.coml"
+    params = %{article: %{url: url, category: "shrimp", title: nil}}
+    post conn, article_path(conn, :create, params)
+    article = Repo.get_by(Article, url: url)
+    assert article.title == "NO TITLE"
+  end
+
+  test "when title is given, it does not replace it with remote title" do
+    url = "http://google.com"
+    params = %{article: %{url: url, category: "shrimp", title: "Shrimp Tasty"}}
+    post conn, article_path(conn, :create, params)
+    :timer.sleep(1000)
+
+    article = Repo.get_by(Article, url: url)
+    :timer.sleep(1000)
+    assert article.title == "Shrimp Tasty"
+  end
+
+  ### post /bulk_articles ###
+
+  test "it creates many article records" do
     params = %{
-      type: :bulk_articles,
       category: :shrimp,
       articles: "http://google.com\nhttp://yahoo.com\nhttp://lycos.com"
     }
-    post conn, article_path(conn, :create, params)
+    post conn, article_path(conn, :create_bulk, params)
     :timer.sleep(1000)
 
     google = Repo.get_by(Article, url: "http://google.com")
@@ -105,32 +122,10 @@ defmodule Reader.ArticleControllerTest do
   end
 
   test "when title is nil, it sets default" do
-    url = "google.coml"
-    params = %{
-      article: %{url: url, category: "shrimp", title: nil},
-      type: :create_article
-    }
-
-    post conn, article_path(conn, :create, params)
-    article = Repo.get_by(Article, url: url)
+    params = %{category: :shrimp, articles: "http://google.google"}
+    post conn, article_path(conn, :create_bulk, params)
+    article = Repo.get_by(Article, url: "http://google.google")
     assert article.title == "NO TITLE"
-  end
-
-  test "when title is given, it does not replace it with remote title" do
-    url = "http://google.com"
-    params = %{
-      article: %{url: url, category: "shrimp", title: "Shrimp Tasty"},
-      type: :create_article,
-    }
-    post conn, article_path(conn, :create, params)
-    :timer.sleep(1000)
-
-    article = Repo.get_by(Article, url: url)
-    :timer.sleep(1000)
-    assert article.title == "Shrimp Tasty"
-  end
-
-  test "when type is 'create_bulk_articles', it creates many article records" do
   end
 
   ### put /articles/:id ###

@@ -11,7 +11,6 @@ export default class SingleArticleForm extends React.Component {
   handleCreateArticle(event) {
     event.preventDefault();
     this.props.server.postArticle({
-      type: "create_article",
       article: {
         title: this.refs.title.value,
         url: this.refs.url.value,

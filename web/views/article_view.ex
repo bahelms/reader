@@ -21,6 +21,10 @@ defmodule Reader.ArticleView do
     %{status: :error, errors: humanize_errors(errors)}
   end
 
+  def render("create_bulk.json", %{errors: errors}) do
+    %{errors: errors}
+  end
+
   defp humanize_errors(errors) do
     for {field, error} <- errors, do: "#{humanize(field)} #{error}"
   end
