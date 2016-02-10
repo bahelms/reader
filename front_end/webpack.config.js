@@ -3,7 +3,7 @@ var webpack = require("webpack");
 var appPath = __dirname + "/app";
 
 module.exports = {
-  entry: appPath,
+  entry: ["bootstrap-loader", appPath],
   output: {
     path: __dirname + "/build",
     filename: "bundle.js",

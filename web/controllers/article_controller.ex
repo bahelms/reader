@@ -31,20 +31,7 @@ defmodule Reader.ArticleController do
     results = BulkArticles.parse(urls, category)
       |> BulkArticles.to_changesets
       |> Stream.map(fn(changeset) -> Repo.insert(changeset) end)
-      # |> Enum.filter_map(
-      #   &(elem(&1, 0) == :error),
-      #   &(elem(&1, 1).errors))
-
-      fn(result) ->
-        case result do
-          {:ok, article} ->
-            if article.title == "NO TITLE" do
-              Reader.ArticleWorker.update_title(article)
-            end
-          {:error, changeset} ->
-            changeset.errors
-        end
-      end
+      |> Enum.reduce([], &_handle_bulk_result/2)
     render conn, errors: results
   end
 
@@ -87,6 +74,18 @@ defmodule Reader.ArticleController do
     cond do
       params["title"] == nil -> Map.drop(params, ["title"])
       true                   -> params
+    end
+  end
+
+  defp _handle_bulk_result(result, acc) do
+    case result do
+      {:ok, article} ->
+        if article.title == "NO TITLE" do
+          Reader.ArticleWorker.update_title(article)
+        end
+        acc
+      {:error, changeset} ->
+        [changeset.errors | acc]
     end
   end
 
