@@ -16,12 +16,14 @@ defmodule Reader.ArticleWorker do
     HTTPoison.get!(url) |> _redirect
   end
 
-  defp _redirect(%HTTPoison.Response{status_code: 301} = response) do
-    {"Location", url} = response.headers |> List.keyfind("Location", 0)
-    _fetch_title(url)
+  defp _redirect(response) do
+    cond do
+      response.status_code in [301, 302] ->
+        {"Location", url} = response.headers |> List.keyfind("Location", 0)
+        _fetch_title(url)
+      true -> response
+    end
   end
-
-  defp _redirect(response), do: response
 
   defp _parse_title(response) do
     [{"title", _, [title|_]} |_] = Floki.find(response.body, "title")

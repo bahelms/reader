@@ -3,7 +3,8 @@ defmodule Reader.ArticleController do
   alias Reader.{Article, BulkArticles}
   import Ecto.Query
 
-  plug :scrub_params, "article"  when action in [:create, :update]
+  plug :scrub_params, "article" when action in [:create, :update]
+  plug :scrub_params, "bulk_articles" when action in [:create_bulk]
 
   def index(conn, _params) do
     render conn, articles: Repo.all(Article.articles_by_category)
@@ -27,12 +28,14 @@ defmodule Reader.ArticleController do
     end
   end
 
-  def create_bulk(conn, %{"articles" => urls, "category" => category}) do
-    results = BulkArticles.parse(urls, category)
+  def create_bulk(conn, %{"bulk_articles" => params}) do
+  # def create_bulk(conn, %{"articles" => urls, "category" => category}) do
+    changesets = BulkArticles.parse(params["urls"], params["category"])
+    # changesets = BulkArticles.parse(urls, category)
       |> BulkArticles.to_changesets
       |> Stream.map(fn(changeset) -> Repo.insert(changeset) end)
       |> Enum.reduce([], &_handle_bulk_result/2)
-    render conn, errors: results
+    render conn, failed_changesets: changesets
   end
 
   def delete(conn, %{"id" => id}) do
@@ -85,7 +88,7 @@ defmodule Reader.ArticleController do
         end
         acc
       {:error, changeset} ->
-        [changeset.errors | acc]
+        [changeset | acc]
     end
   end
 

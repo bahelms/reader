@@ -21,7 +21,10 @@ defmodule Reader.ArticleView do
     %{status: :error, errors: humanize_errors(errors)}
   end
 
-  def render("create_bulk.json", %{errors: errors}) do
+  def render("create_bulk.json", %{failed_changesets: changesets}) do
+    errors = Enum.map changesets, fn(changeset) ->
+      "#{changeset.changes.url} has already been taken"
+    end
     %{errors: errors}
   end
 

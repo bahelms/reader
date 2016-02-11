@@ -109,22 +109,35 @@ defmodule Reader.ArticleControllerTest do
 
   test "it creates many article records" do
     params = %{
-      category: :shrimp,
-      articles: "http://google.com\nhttp://yahoo.com\nhttp://lycos.com"
+      bulk_articles: %{
+        category: :shrimp,
+        urls: "http://google.com\nhttp://yahoo.com\nhttp://lycos.com"
+      }
     }
     post conn, article_path(conn, :create_bulk, params)
-    :timer.sleep(1000)
+    :timer.sleep(2000)
 
     google = Repo.get_by(Article, url: "http://google.com")
-    yahoo = Repo.get_by(Article, url: "http://yahoo.com")
+    yahoo  = Repo.get_by(Article, url: "http://yahoo.com")
+    lycos  = Repo.get_by(Article, url: "http://lycos.com")
+
     assert google.title == "Google"
+    assert google.category == "shrimp"
     assert yahoo.title == "Yahoo"
+    assert lycos.title == "Lycos.com"
+  end
+
+  test "when a url has already been taken, it responds with errors" do
+    params = %{bulk_articles: %{category: :shrimp, articles: "hey.com\nhey.com"}}
+    res = post conn, article_path(conn, :create_bulk, params)
+    {:ok, %{"errors" => errors}} = Poison.decode(res.resp_body)
+    assert errors == ["hey.com has already been taken"]
   end
 
   test "when title is nil, it sets default" do
-    params = %{category: :shrimp, articles: "http://google.google"}
+    params = %{bulk_articles: %{category: :shrimp, articles: "http://google.goog"}}
     post conn, article_path(conn, :create_bulk, params)
-    article = Repo.get_by(Article, url: "http://google.google")
+    article = Repo.get_by(Article, url: "http://google.goog")
     assert article.title == "NO TITLE"
   end
 

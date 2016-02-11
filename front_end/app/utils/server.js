@@ -27,6 +27,12 @@ export default class Server {
     });
   }
 
+  postBulkArticles(params, callback) {
+    $.post(`${this.url}/bulk_articles`, params, (data) => {
+      callback(data);
+    });
+  }
+
   putArticle(id, params, callback) {
     $.ajax({
       url: `${this.url}/articles/${id}`,

@@ -16,7 +16,7 @@ export default class SingleArticleForm extends React.Component {
         url: this.refs.url.value,
         category: this.refs.category.value
       }
-    }, this.handlePostResponse.bind(this))
+    }, this.handlePostResponse.bind(this));
   }
 
   handlePostResponse(data) {
@@ -25,8 +25,7 @@ export default class SingleArticleForm extends React.Component {
       this.setState(
         Object.assign(this.defaultState, this.setFlash("info", data.message)));
     else
-      this.setState(
-        Object.assign(this.state, this.setFlash("danger", data.errors)));
+      this.setState(this.setFlash("danger", data.errors));
   }
 
   handleURLInput(event)      { this.setState({url: event.target.value}); }
