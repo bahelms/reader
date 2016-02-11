@@ -9,7 +9,7 @@ defmodule Reader.BulkArticles do
   Parses the string of article urls and merges them with the given category
   into a list of maps.
   """
-  @spec parse(String.t, String.t) :: [%{url: String.t, category: String.t}]
+  @spec parse(String.t | nil, String.t) :: [%{url: String.t, category: String.t}]
   def parse(urls, category) do
     for url <- String.split(urls), do: %{url: url, category: category}
   end

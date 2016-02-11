@@ -4,7 +4,6 @@ defmodule Reader.ArticleController do
   import Ecto.Query
 
   plug :scrub_params, "article" when action in [:create, :update]
-  plug :scrub_params, "bulk_articles" when action in [:create_bulk]
 
   def index(conn, _params) do
     render conn, articles: Repo.all(Article.articles_by_category)
@@ -29,9 +28,7 @@ defmodule Reader.ArticleController do
   end
 
   def create_bulk(conn, %{"bulk_articles" => params}) do
-  # def create_bulk(conn, %{"articles" => urls, "category" => category}) do
     changesets = BulkArticles.parse(params["urls"], params["category"])
-    # changesets = BulkArticles.parse(urls, category)
       |> BulkArticles.to_changesets
       |> Stream.map(fn(changeset) -> Repo.insert(changeset) end)
       |> Enum.reduce([], &_handle_bulk_result/2)

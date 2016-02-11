@@ -12,8 +12,10 @@ export default class BulkArticlesForm extends React.Component {
     event.preventDefault();
     if (this.formIsValid())
       this.props.server.postBulkArticles({
-        category: this.refs.category.value,
-        articles: this.refs.articles.value
+        bulk_articles: {
+          category: this.refs.category.value,
+          urls: this.refs.articles.value
+        }
       }, this.handlePostResponse.bind(this));
   }
 
