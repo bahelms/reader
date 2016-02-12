@@ -25,7 +25,9 @@ export default class ArticleSelector extends React.Component {
   }
 
   getArticle() {
-    alert("Not implemented yet!");
+    this.server.getRandomArticle(this.refs.categories.value, (data) => {
+      console.log(data);
+    });
   }
 
   render() {
@@ -37,7 +39,7 @@ export default class ArticleSelector extends React.Component {
           </div>
           <div className="row">
             <div className="col-md-2 col-md-offset-5">
-              <select className="form-control">
+              <select className="form-control" ref="categories">
                 {this.displayCategories()}
               </select>
             </div>
@@ -47,8 +49,7 @@ export default class ArticleSelector extends React.Component {
         <div className="row">
           <div className="col-md-2 col-md-offset-5">
             <button className="btn btn-lg btn-primary"
-              style={this.articleBtnStyle()}
-              onClick={this.getArticle}>
+              style={this.articleBtnStyle()} onClick={this.getArticle.bind(this)}>
               Get me an article!
             </button>
           </div>

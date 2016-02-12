@@ -20,7 +20,12 @@ export default class BulkArticlesForm extends React.Component {
   }
 
   handlePostResponse(data) {
-    console.log(data);
+    if (data.errors.length)
+      this.setState(this.setFlash("danger", data.errors));
+    else
+      this.setState(
+        Object.assign(
+          this.defaultState, this.setFlash("info", "Articles saved")));
   }
 
   handleCategoryInput(event) { this.setState({category: event.target.value}); }

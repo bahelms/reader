@@ -192,4 +192,21 @@ defmodule Reader.ArticleControllerTest do
     delete conn, article_path(conn, :delete, 3)
     assert Repo.one(from a in Article, select: count(a.id)) == 3
   end
+
+  ### get /random_article ###
+
+  test "returns a random article in given category" do
+    path = article_path(conn, :random_article, category: :test2)
+    {:ok, %{"article_id" => id}} = get(conn, path).resp_body |> Poison.decode
+    assert id == 3
+
+    path = article_path(conn, :random_article, category: :test1)
+    {:ok, %{"article_id" => id}} = get(conn, path).resp_body |> Poison.decode
+    assert id in [1,2]
+
+    path = article_path(conn, :random_article, category: :random)
+    {:ok, %{"article_id" => id}} = get(conn, path).resp_body |> Poison.decode
+    assert id in [1,2,3,4]
+  end
 end
+

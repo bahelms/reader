@@ -21,6 +21,12 @@ export default class Server {
     });
   }
 
+  getRandomArticle(category, callback) {
+    $.get(`${this.url}/random_article?category=${category}`, (data) => {
+      callback(article);
+    });
+  }
+
   postArticle(params, callback) {
     $.post(`${this.url}/articles`, params, (data) => {
       callback(data);

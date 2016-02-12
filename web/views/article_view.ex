@@ -28,6 +28,8 @@ defmodule Reader.ArticleView do
     %{errors: errors}
   end
 
+  def render("random_article.json", %{article_id: id}), do: %{article_id: id}
+
   defp humanize_errors(errors) do
     for {field, error} <- errors, do: "#{humanize(field)} #{error}"
   end

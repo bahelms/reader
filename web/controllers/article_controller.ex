@@ -63,6 +63,11 @@ defmodule Reader.ArticleController do
     json conn, %{categories: ["Random" | categories]}
   end
 
+  def random_article(conn, %{"category" => category}) do
+    IO.inspect category
+    render conn, article_id: _pluck_article(String.downcase(category)).id
+  end
+
   defp _titleize(string) do
     string
       |> String.split("_")
@@ -89,28 +94,21 @@ defmodule Reader.ArticleController do
     end
   end
 
-  # def index(conn, %{"category" => category}) do
-  #   article_id = pluck_article(String.downcase(category)).id
-  #   redirect conn, to: "/articles/#{article_id}"
-  # end
+  defp _pluck_article("random") do
+    :random.seed(:os.timestamp)
+    Article.unread
+      |> Repo.all
+      |> Enum.shuffle
+      |> List.first
+  end
 
-  # defp pluck_article("random") do
-  #   :random.seed(:os.timestamp)
-
-  #   Article.unread
-  #     |> Repo.all
-  #     |> Enum.shuffle
-  #     |> List.first
-  # end
-
-  # defp pluck_article(category) do
-  #   :random.seed(:os.timestamp)
-
-  #   Article.in_category(category)
-  #     |> Article.unread
-  #     |> Repo.all
-  #     |> Enum.shuffle
-  #     |> List.first
-  # end
+  defp _pluck_article(category) do
+    :random.seed(:os.timestamp)
+    Article.in_category(category)
+      |> Article.unread
+      |> Repo.all
+      |> Enum.shuffle
+      |> List.first
+  end
 end
 
