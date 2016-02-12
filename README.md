@@ -13,6 +13,7 @@ TODO
 ----
 * Setup mock server to use in testing for article title fetching
 * Add sorting and searching to article list
+* CSS: center article page
 * Dockerize
 * Content parser app to specify things like:
   * read time, based on number of words

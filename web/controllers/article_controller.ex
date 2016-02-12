@@ -14,7 +14,8 @@ defmodule Reader.ArticleController do
   end
 
   def create(conn, %{"article" => params}) do
-    changeset = Article.changeset(%Article{}, _filter(params))
+    new_params = params |> _filter |> _sanitize_category
+    changeset = Article.changeset(%Article{}, new_params)
 
     case Repo.insert(changeset) do
       {:ok, article} ->
@@ -28,7 +29,8 @@ defmodule Reader.ArticleController do
   end
 
   def create_bulk(conn, %{"bulk_articles" => params}) do
-    changesets = BulkArticles.parse(params["urls"], params["category"])
+    changesets = _sanitize_category(params)
+      |> BulkArticles.parse
       |> BulkArticles.to_changesets
       |> Stream.map(fn(changeset) -> Repo.insert(changeset) end)
       |> Enum.reduce([], &_handle_bulk_result/2)
@@ -44,7 +46,7 @@ defmodule Reader.ArticleController do
 
   def update(conn, %{"id" => id, "article" => params}) do
     article = Repo.get!(Article, id)
-    changeset = Article.changeset(article, params)
+    changeset = Article.changeset(article, _sanitize_category(params))
 
     case Repo.update(changeset) do
       {:ok, article} ->
@@ -63,9 +65,9 @@ defmodule Reader.ArticleController do
     json conn, %{categories: ["Random" | categories]}
   end
 
-  def random_article(conn, %{"category" => category}) do
-    IO.inspect category
-    render conn, article_id: _pluck_article(String.downcase(category)).id
+  def random_article(conn, params) do
+    %{"category" => category} = _sanitize_category(params)
+    render conn, article_id: _pluck_article(category).id
   end
 
   defp _titleize(string) do
@@ -74,6 +76,16 @@ defmodule Reader.ArticleController do
       |> Enum.map(&(String.capitalize(&1)))
       |> Enum.join(" ")
   end
+
+  defp _sanitize_category(%{"category" => _} = params) do
+    Map.update! params, "category", fn(category) ->
+      category
+        |> String.replace(" ", "")
+        |> Phoenix.Naming.underscore
+    end
+  end
+
+  defp _sanitize_category(params), do: params
 
   defp _filter(params) do
     cond do

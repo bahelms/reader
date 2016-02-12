@@ -10,7 +10,8 @@ defmodule Reader.BulkArticlesTest do
       %{url: "http://www.heythere.com", category: "test"},
       %{url: "what.org/article", category: "test"} ]
 
-    assert BulkArticles.parse(urls, "test") == expected_result
+    params = %{"urls" => urls, "category" => "test"}
+    assert BulkArticles.parse(params) == expected_result
   end
 
   @doc "to_changesets/1"

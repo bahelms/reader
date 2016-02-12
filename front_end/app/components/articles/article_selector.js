@@ -26,7 +26,7 @@ export default class ArticleSelector extends React.Component {
 
   getArticle() {
     this.server.getRandomArticle(this.refs.categories.value, (data) => {
-      console.log(data);
+      window.location = `/articles/${data.article_id}`;
     });
   }
 

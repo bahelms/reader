@@ -78,12 +78,13 @@ defmodule Reader.ArticleControllerTest do
 
   test "it creates a new article record" do
     url = "http://google.com"
-    params = %{article: %{url: url, category: "shrimp"}}
+    params = %{article: %{url: url, category: "Shrimp Test"}}
     post conn, article_path(conn, :create, params)
     :timer.sleep(1100)
 
     article = Repo.get_by(Article, url: url)
     assert article.title == "Google"
+    assert article.category == "shrimp_test"
   end
 
   test "when title is nil, it sets default" do
@@ -110,7 +111,7 @@ defmodule Reader.ArticleControllerTest do
   test "it creates many article records" do
     params = %{
       bulk_articles: %{
-        category: :shrimp,
+        category: "Bonkers",
         urls: "http://google.com\nhttp://yahoo.com\nhttp://lycos.com"
       }
     }
@@ -122,7 +123,7 @@ defmodule Reader.ArticleControllerTest do
     lycos  = Repo.get_by(Article, url: "http://lycos.com")
 
     assert google.title == "Google"
-    assert google.category == "shrimp"
+    assert google.category == "bonkers"
     assert yahoo.title == "Yahoo"
     assert lycos.title == "Lycos.com"
   end
@@ -144,9 +145,11 @@ defmodule Reader.ArticleControllerTest do
   ### put /articles/:id ###
 
   test "updates the given article" do
-    params = %{article: %{url: "update.four.com"}}
+    params = %{article: %{url: "update.four.com", category: "hey There"}}
     put conn, article_path(conn, :update, %Article{id: 4}), params
-    assert Repo.get(Article, 4).url == "update.four.com"
+    article = Repo.get(Article, 4)
+    assert article.url == "update.four.com"
+    assert article.category == "hey_there"
   end
 
   test "updates favorite status" do

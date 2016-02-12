@@ -22,7 +22,8 @@ export default class ArticleRow extends React.Component {
     return (
       <tr className={this.setStatus(this.props.article)}>
         <td>
-          <Link to={`/articles/${this.props.article.id}`} style={this.titleLinkStyle()}>
+          <Link to={`/articles/${this.props.article.id}`}
+            style={this.titleLinkStyle()}>
             {this.props.article.title}
           </Link>
         </td>

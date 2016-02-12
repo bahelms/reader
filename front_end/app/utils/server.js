@@ -23,7 +23,7 @@ export default class Server {
 
   getRandomArticle(category, callback) {
     $.get(`${this.url}/random_article?category=${category}`, (data) => {
-      callback(article);
+      callback(data);
     });
   }
 
