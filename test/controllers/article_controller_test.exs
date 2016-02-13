@@ -8,7 +8,8 @@ defmodule Reader.ArticleControllerTest do
       %Article{id: 1, category: "test1", url: "one.com", title: "some title"},
       %Article{id: 2, category: "test1", url: "two.com", title: "some title"},
       %Article{id: 3, category: "test2", url: "three.com", title: "some title"},
-      %Article{id: 4, category: "test3", url: "four.com", title: "some title"}
+      %Article{id: 4, category: "test3", url: "four.com", title: "some title"},
+      %Article{id: 5, category: "test3", url: "hey.com", title: "some title"}
     ]
 
    ids = Enum.map articles, fn(article) ->
@@ -45,6 +46,12 @@ defmodule Reader.ArticleControllerTest do
         "favorite" => false},
       %{"id" => 4,
         "url" => "four.com",
+        "category" => "test3",
+        "title" => "some title",
+        "read" => false,
+        "favorite" => false},
+      %{"id" => 5,
+        "url" => "hey.com",
         "category" => "test3",
         "title" => "some title",
         "read" => false,
@@ -129,7 +136,7 @@ defmodule Reader.ArticleControllerTest do
   end
 
   test "when a url has already been taken, it responds with errors" do
-    params = %{bulk_articles: %{category: :shrimp, urls: "hey.com\nhey.com"}}
+    params = %{bulk_articles: %{category: :shrimp, urls: "hey.com"}}
     res = post conn, article_path(conn, :create_bulk, params)
     {:ok, %{"errors" => errors}} = Poison.decode(res.resp_body)
     assert errors == ["hey.com has already been taken"]
@@ -193,7 +200,7 @@ defmodule Reader.ArticleControllerTest do
 
   test "deletes the given article" do
     delete conn, article_path(conn, :delete, 3)
-    assert Repo.one(from a in Article, select: count(a.id)) == 3
+    assert Repo.one(from a in Article, select: count(a.id)) == 4
   end
 
   ### get /random_article ###
@@ -209,7 +216,7 @@ defmodule Reader.ArticleControllerTest do
 
     path = article_path(conn, :random_article, category: :random)
     {:ok, %{"article_id" => id}} = get(conn, path).resp_body |> Poison.decode
-    assert id in [1,2,3,4]
+    assert id in [1,2,3,4,5]
   end
 end
 
