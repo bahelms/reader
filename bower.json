@@ -1,6 +1,0 @@
-{
-  "name": "reader",
-  "dependencies": {
-    "jquery": "~ 2.1"
-  }
-}
