@@ -13,7 +13,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :reader, Reader.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [scheme: "https", host: "whispering-reef-86720.herokuapp.com", port: 443],
+  url: [scheme: "https", host: "infinite-dusk-14025.herokuapp.com", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   secret_key_base: System.get_env("SECRET_KEY_BASE")
 
