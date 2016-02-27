@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  api:
+    build:
+      context: .
+    command: mix phoenix.server
+    volumes:
+      - .:/app
+
+  front_end:
+    build:
+      context: front_end
+    command: npm start
+    ports: 
+      - "8080:8080"
+    volumes:
+      - ./front_end:/app
+
+  postgres:
+    image: postgres
+

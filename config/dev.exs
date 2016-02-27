@@ -11,8 +11,7 @@ config :reader, Reader.Endpoint,
   debug_errors: true,
   code_reloader: true,
   cache_static_lookup: false,
-  check_origin: false,
-  watchers: [node: []]
+  check_origin: false
 
 # Watch static and templates for browser reloading.
 config :reader, Reader.Endpoint,

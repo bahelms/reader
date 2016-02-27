@@ -4,7 +4,7 @@
   "description": "Article Reader",
   "main": "app.js",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --host 0.0.0.0",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "jimbonk",
@@ -28,11 +28,13 @@
     "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
+    "bootstrap-loader": "^1.0.8",
     "bootstrap-sass": "^3.3.5",
     "history": "^1.14.0",
     "jquery": "^2.1.4",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
-    "react-router": "^1.0.1"
+    "react-router": "^1.0.1",
+    "resolve-url-loader": "^1.4.3"
   }
 }
