@@ -36,5 +36,5 @@ config :reader, Reader.Repo,
   username: "postgres",
   password: "postgres",
   database: "reader_dev",
-  hostname: "localhost",
+  hostname: "postgres",
   pool_size: 10

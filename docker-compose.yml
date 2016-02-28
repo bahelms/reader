@@ -4,7 +4,13 @@ services:
   api:
     build:
       context: .
-    command: mix phoenix.server
+    environment:
+      MIX_ENV: dev
+    command: mix start_app
+    ports: 
+      - "4000:4000"
+    links: 
+      - postgres
     volumes:
       - .:/app
 
@@ -15,8 +21,7 @@ services:
     ports: 
       - "8080:8080"
     volumes:
-      - ./front_end:/app
+      - ./front_end/app:/app/app
 
   postgres:
     image: postgres
-

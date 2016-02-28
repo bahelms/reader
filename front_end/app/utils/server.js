@@ -1,6 +1,6 @@
 export default class Server {
   constructor() {
-    this.url = "http://localhost:4000";
+    this.url = "http://dockerhost:4000";
   }
 
   getArticles(callback) {

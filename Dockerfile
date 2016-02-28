@@ -10,4 +10,5 @@ COPY . /app
 RUN mix hex.info
 RUN mix compile
 
-# CMD ["mix", "phoenix.server"]
+EXPOSE 4000
+CMD ["mix", "phoenix.server"]

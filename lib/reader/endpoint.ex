@@ -36,8 +36,8 @@ defmodule Reader.Endpoint do
     signing_salt: "NqrXrQQX"
 
   frontend_origin = case Mix.env do
-    :dev  -> "http://localhost:8080"
-    :test -> "http://localhost:8080"
+    :dev  -> "http://dockerhost:8080"
+    :test -> "http://dockerhost:8080"
     :prod -> ""
   end
 

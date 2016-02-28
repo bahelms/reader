@@ -34,9 +34,9 @@ defmodule Reader.Mixfile do
      {:floki, "~> 0.5.0"},
      {:httpoison, "~> 0.7.4"},
      {:phoenix, "~> 1.1.2"},
-     {:phoenix_ecto, "~> 2.0"},
+     {:phoenix_ecto, "3.0.0-beta.2"},
      {:phoenix_html, "~> 2.3"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:postgrex, "~> 0.10"},]
+     {:postgrex, "~> 0.11"},]
   end
 end
