@@ -4,6 +4,8 @@ defmodule Reader.ArticleControllerTest do
   require Logger
 
   setup do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Reader.Repo)
+
     articles = [
       %Article{id: 1, category: "test1", url: "one.com", title: "some title"},
       %Article{id: 2, category: "test1", url: "two.com", title: "some title"},

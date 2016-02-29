@@ -4,8 +4,6 @@ services:
   api:
     build:
       context: .
-    environment:
-      MIX_ENV: dev
     command: mix start_app
     ports: 
       - "4000:4000"
@@ -25,3 +23,5 @@ services:
 
   postgres:
     image: postgres
+    ports: 
+      - "5432:5432"

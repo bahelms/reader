@@ -18,5 +18,5 @@ config :reader, Reader.Repo,
   username: "postgres",
   password: "postgres",
   database: "reader_test",
-  hostname: "localhost",
+  hostname: "postgres",
   pool: Ecto.Adapters.SQL.Sandbox
