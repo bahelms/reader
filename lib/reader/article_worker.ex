@@ -30,7 +30,9 @@ defmodule Reader.ArticleWorker do
   defp _parse_title(:error), do: nil
 
   defp _parse_title(response) do
-    [{"title", _, [title|_]} |_] = Floki.find(response.body, "title")
-    title
+    case Floki.find(response.body, "title") do
+      [{"title", _, [title|_]} |_] -> title
+      _ -> nil
+    end
   end
 end
