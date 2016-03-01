@@ -3,6 +3,8 @@ defmodule Reader.ArticleWorkerTest do
   alias Reader.{Repo, Article, ArticleWorker}
 
   setup do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
+
     {:ok, article} = %Article{url: "http://google.com", category: "test"}
       |> Repo.insert
     {:ok, article: article}

@@ -4,7 +4,8 @@ defmodule Reader.ArticleControllerTest do
   require Logger
 
   setup do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Reader.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
+    Ecto.Adapters.SQL.Sandbox.mode(Repo, {:shared, self})
 
     articles = [
       %Article{id: 1, category: "test1", url: "one.com", title: "some title"},
@@ -202,7 +203,7 @@ defmodule Reader.ArticleControllerTest do
 
   test "deletes the given article" do
     delete conn, article_path(conn, :delete, 3)
-    assert Repo.one(from a in Article, select: count(a.id)) == 4
+    assert Repo.all(Article) |> Enum.count == 4
   end
 
   ### get /random_article ###
