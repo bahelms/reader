@@ -1,20 +1,15 @@
 # The Reader
 
 ## Start in development
-From /front_end:
+    docker-compose up -d
 
-    npm start
-
-From /:
-
-    mix phoenix.server
+## Deploy
+Coming soon...
 
 TODO
 ----
-* Dockerize
 * Display date article was added
 * Trim url of ?utm_source... crap upon creation
-* Setup mock server to use in testing for article title fetching
 * Add sorting and searching to article list
 * CSS: center article page
 * Content parser app to specify things like:
