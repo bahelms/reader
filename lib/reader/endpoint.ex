@@ -38,7 +38,7 @@ defmodule Reader.Endpoint do
   frontend_origin = case Mix.env do
     :dev  -> "http://dockerhost:8080"
     :test -> "http://dockerhost:8080"
-    :prod -> ""
+    :prod -> "http://the-reader.s3-website-us-east-1.amazonaws.com"
   end
 
   plug Corsica,

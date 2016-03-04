@@ -1,0 +1,5 @@
+.git
+Dockerfile
+front_end
+_build
+docker-compose.yml

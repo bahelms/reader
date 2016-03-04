@@ -4,7 +4,7 @@
   "description": "Article Reader",
   "main": "app.js",
   "scripts": {
-    "start": "webpack-dev-server --host 0.0.0.0",
+    "start": "ENV=dev webpack-dev-server --host 0.0.0.0",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "jimbonk",
@@ -13,6 +13,7 @@
     "babel-core": "^5.8.25",
     "babel-loader": "^5.3.2",
     "css-loader": "^0.21.0",
+    "envify": "^3.4.0",
     "eslint": "^1.7.3",
     "eslint-loader": "^1.1.0",
     "exports-loader": "^0.6.2",
@@ -23,9 +24,10 @@
     "node-sass": "^3.3.3",
     "sass-loader": "^3.0.0",
     "style-loader": "^0.13.0",
+    "transform-loader": "^0.2.3",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.2",
-    "webpack-dev-server": "^1.12.1"
+    "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
     "bootstrap-loader": "^1.0.8",

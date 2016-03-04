@@ -7,8 +7,10 @@ RUN mkdir /app && \
 WORKDIR /app
 COPY . /app
 
+ENV MIX_ENV prod
 RUN mix hex.info
+RUN mix deps.get
 RUN mix compile
 
-EXPOSE 4000
+EXPOSE 80
 CMD ["mix", "phoenix.server"]

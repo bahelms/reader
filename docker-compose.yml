@@ -1,10 +1,12 @@
 version: '2'
 
 services:
-  api:
+  api: &base
     build:
       context: .
     command: mix start_app
+    environment:
+      MIX_ENV: dev
     ports: 
       - "4000:4000"
     links: 
@@ -25,3 +27,11 @@ services:
     image: postgres
     ports: 
       - "5432:5432"
+
+  api_test:
+    <<: *base
+    environment:
+      MIX_ENV: test
+    ports:
+      - "4001:4001"
+    command: mix ecto.create

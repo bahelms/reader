@@ -1,6 +1,7 @@
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 var webpack = require("webpack");
 var appPath = __dirname + "/app";
+var env = JSON.stringify(process.env.ENV) || "dev";
 
 module.exports = {
   entry: ["bootstrap-loader", appPath],
@@ -18,7 +19,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({template: "app/index.html", inject: "body"}),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.ProvidePlugin({$: "jquery", jQuery: "jquery"})
+    new webpack.ProvidePlugin({$: "jquery", jQuery: "jquery"}),
+    new webpack.DefinePlugin({ENV: env})
   ],
   module: {
     preloaders: [

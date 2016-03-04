@@ -1,6 +1,9 @@
 export default class Server {
   constructor() {
-    this.url = "http://dockerhost:4000";
+    var server_domain = "http://dockerhost:4000";
+    if (ENV == "prod")
+      server_domain = "http://reader-prod.us-east-1.elasticbeanstalk.com";
+    this.url = server_domain;
   }
 
   getArticles(callback) {

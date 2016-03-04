@@ -14,13 +14,13 @@ config :reader, Reader.Endpoint,
   check_origin: false
 
 # Watch static and templates for browser reloading.
-config :reader, Reader.Endpoint,
-  live_reload: [
-    patterns: [
-      ~r{web/views/.*(ex)$},
-      ~r{web/templates/.*(eex)$}
-    ]
-  ]
+# config :reader, Reader.Endpoint,
+#   live_reload: [
+#     patterns: [
+#       ~r{web/views/.*(ex)$},
+#       ~r{web/templates/.*(eex)$}
+#     ]
+#   ]
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
