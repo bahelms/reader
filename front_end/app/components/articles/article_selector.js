@@ -1,4 +1,5 @@
 import React from "react";
+import { browserHistory } from "react-router";
 import Server from "../../utils/server";
 
 export default class ArticleSelector extends React.Component {
@@ -15,7 +16,7 @@ export default class ArticleSelector extends React.Component {
   }
 
   articleBtnStyle() {
-   return { margin: "1.875em 0 0 0.8em" };
+    return { margin: "1.875em 0 0 0.8em" };
   }
 
   displayCategories() {
@@ -26,7 +27,7 @@ export default class ArticleSelector extends React.Component {
 
   getArticle() {
     this.server.getRandomArticle(this.refs.categories.value, (data) => {
-      window.location = `/articles/${data.article_id}`;
+      browserHistory.push(`/articles/${data.article_id}`);
     });
   }
 

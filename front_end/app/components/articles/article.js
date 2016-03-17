@@ -1,5 +1,6 @@
 import React from "react";
 import Server from "../../utils/server";
+import { browserHistory } from "react-router";
 import ArticleControlButtons from "./article_control_buttons";
 import ArticleNotFound from "./article_not_found";
 import ArticleEditErrors from "./article_edit_errors";
@@ -50,7 +51,7 @@ export default class Article extends React.Component {
   handleDeleteArticle() {
     if (confirm("Are you sure you want to delete this article?")) {
       this.server.deleteArticle(this.props.params.id, (_response) => {
-        window.location = "/articles";
+        browserHistory.push("/articles");
       });
     }
   }
