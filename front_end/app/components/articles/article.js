@@ -1,11 +1,10 @@
 import React from "react";
 import Server from "../../utils/server";
-import { browserHistory } from "react-router";
 import ArticleControlButtons from "./article_control_buttons";
 import ArticleNotFound from "./article_not_found";
 import ArticleEditErrors from "./article_edit_errors";
 
-export class Article extends React.Component {
+class Article extends React.Component {
   constructor(props) {
     super(props);
     this.state = {article: {}, edit: false, articleFound: true};
@@ -190,3 +189,5 @@ export class Article extends React.Component {
 }
 
 Article.contextTypes = { router: React.PropTypes.object.isRequired };
+
+export default Article;

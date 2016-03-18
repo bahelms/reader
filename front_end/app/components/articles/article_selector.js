@@ -1,8 +1,7 @@
 import React from "react";
-import { browserHistory } from "react-router";
 import Server from "../../utils/server";
 
-export class ArticleSelector extends React.Component {
+class ArticleSelector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {categories: []};
@@ -61,4 +60,6 @@ export class ArticleSelector extends React.Component {
 }
 
 ArticleSelector.contextTypes = { router: React.PropTypes.object.isRequired };
+
+export default ArticleSelector;
 
