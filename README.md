@@ -4,13 +4,14 @@
     docker-compose up -d
 
 ## Deploy
-Coming soon...
+    ./deploy.sh
 
 TODO
 ----
 * Display date article was added
 * Trim url of ?utm_source... crap upon creation
 * Add sorting and searching to article list
+* Add front end tests
 * "read" option when creating article, if already read
 * CSS: center article page
 * Content parser app to specify things like:
