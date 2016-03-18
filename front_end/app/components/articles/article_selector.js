@@ -27,7 +27,7 @@ export default class ArticleSelector extends React.Component {
 
   getArticle() {
     this.server.getRandomArticle(this.refs.categories.value, (data) => {
-      browserHistory.push(`/articles/${data.article_id}`);
+      this.context.router.push(`/articles/${data.article_id}`);
     });
   }
 
@@ -59,4 +59,8 @@ export default class ArticleSelector extends React.Component {
     );
   }
 }
+
+ArticleSelector.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
 

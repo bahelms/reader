@@ -51,7 +51,7 @@ export default class Article extends React.Component {
   handleDeleteArticle() {
     if (confirm("Are you sure you want to delete this article?")) {
       this.server.deleteArticle(this.props.params.id, (_response) => {
-        browserHistory.push("/articles");
+        this.context.router.push("/articles");
       });
     }
   }
@@ -188,3 +188,7 @@ export default class Article extends React.Component {
       return <ArticleNotFound />;
   }
 }
+
+Article.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
