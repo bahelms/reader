@@ -5,7 +5,7 @@ import ArticleControlButtons from "./article_control_buttons";
 import ArticleNotFound from "./article_not_found";
 import ArticleEditErrors from "./article_edit_errors";
 
-export default class Article extends React.Component {
+export class Article extends React.Component {
   constructor(props) {
     super(props);
     this.state = {article: {}, edit: false, articleFound: true};
@@ -189,6 +189,4 @@ export default class Article extends React.Component {
   }
 }
 
-Article.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
+Article.contextTypes = { router: React.PropTypes.object.isRequired };

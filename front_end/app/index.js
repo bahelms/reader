@@ -5,8 +5,8 @@ import { Router, Route, IndexRoute, NotFoundRoute } from "react-router";
 import { browserHistory } from "react-router";
 import App from "./components/app";
 import ArticlesIndex from "./components/articles/articles_index";
-import ArticleSelector from "./components/articles/article_selector";
-import Article from "./components/articles/article";
+import { ArticleSelector } from "./components/articles/article_selector";
+import { Article } from "./components/articles/article";
 import ArticlesForm from "./components/articles/articles_form";
 import NoMatch from "./components/no_match";
 
