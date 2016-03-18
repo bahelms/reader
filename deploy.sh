@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Deploy phoenix 
-eb deploy reader-prod
+# eb deploy reader-prod
 
 # Update front end
 cd front_end
