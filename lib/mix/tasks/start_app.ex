@@ -1,7 +1,7 @@
 defmodule Mix.Tasks.StartApp do
   use Mix.Task
 
-  def run(_) do
+  def run(_args) do
     IO.puts "Running create..."
     Mix.Task.run("ecto.create")
 

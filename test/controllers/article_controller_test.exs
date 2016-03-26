@@ -2,16 +2,17 @@ defmodule Reader.ArticleControllerTest do
   use Reader.ConnCase
   alias Reader.Article
   require Logger
+  import Ecto.Query
 
   setup do
     Ecto.Adapters.SQL.Sandbox.mode(Repo, {:shared, self})
 
     articles = [
-      %Article{id: 1, category: "test1", url: "one.com", title: "some title"},
-      %Article{id: 2, category: "test1", url: "two.com", title: "some title"},
-      %Article{id: 3, category: "test2", url: "three.com", title: "some title"},
-      %Article{id: 4, category: "test3", url: "four.com", title: "some title"},
-      %Article{id: 5, category: "test3", url: "hey.com", title: "some title"}
+      %Article{category: "test1", url: "one.com", title: "some title"},
+      %Article{category: "test1", url: "two.com", title: "some title"},
+      %Article{category: "test2", url: "three.com", title: "some title"},
+      %Article{category: "test3", url: "four.com", title: "some title"},
+      %Article{category: "test3", url: "hey.com", title: "some title"}
     ]
 
    ids = Enum.map articles, fn(article) ->
@@ -27,33 +28,30 @@ defmodule Reader.ArticleControllerTest do
   test "returns all articles ordered by category" do
     conn = get conn, article_path(conn, :index)
     {:ok, json} = Poison.decode(conn.resp_body)
-    assert json == [
-      %{"id" => 1,
-        "url" => "one.com",
+    articles = json |> Enum.map(&(Map.delete(&1, "id")))
+
+    assert articles == [
+      %{"url" => "one.com",
         "category" => "test1",
         "title" => "some title",
         "read" => false,
         "favorite" => false},
-      %{"id" => 2,
-        "url" => "two.com",
+      %{"url" => "two.com",
         "category" => "test1",
         "title" => "some title",
         "read" => false,
         "favorite" => false},
-      %{"id" => 3,
-        "url" => "three.com",
+      %{"url" => "three.com",
         "category" => "test2",
         "title" => "some title",
         "read" => false,
         "favorite" => false},
-      %{"id" => 4,
-        "url" => "four.com",
+      %{"url" => "four.com",
         "category" => "test3",
         "title" => "some title",
         "read" => false,
         "favorite" => false},
-      %{"id" => 5,
-        "url" => "hey.com",
+      %{"url" => "hey.com",
         "category" => "test3",
         "title" => "some title",
         "read" => false,
@@ -66,8 +64,8 @@ defmodule Reader.ArticleControllerTest do
   test "returns the article for id as json", %{ids: [id | _ids]} do
     conn = get conn, article_path(conn, :show, id)
     {:ok, json} = Poison.decode(conn.resp_body)
-    assert json == %{
-      "id" => 1,
+    article = Map.delete(json, "id")
+    assert article == %{
       "url" => "one.com",
       "category" => "test1",
       "title" => "some title",
@@ -153,35 +151,36 @@ defmodule Reader.ArticleControllerTest do
 
   ### put /articles/:id ###
 
-  test "updates the given article" do
+  test "updates the given article", %{ids: [id | _ids]} do
     params = %{article: %{url: "update.four.com", category: "hey There"}}
-    put conn, article_path(conn, :update, %Article{id: 4}), params
-    article = Repo.get(Article, 4)
+    put conn, article_path(conn, :update, %Article{id: id}), params
+    article = Repo.get(Article, id)
     assert article.url == "update.four.com"
     assert article.category == "hey_there"
   end
 
-  test "updates favorite status" do
+  test "updates favorite status", %{ids: [id | _ids]} do
     params = %{article: %{favorite: true}}
-    put conn, article_path(conn, :update, %Article{id: 3}), params
-    assert Repo.get(Article, 3).favorite == true
+    put conn, article_path(conn, :update, %Article{id: id}), params
+    assert Repo.get(Article, id).favorite == true
   end
 
-  test "updates read status" do
+  test "updates read status", %{ids: [id | _ids]} do
     params = %{article: %{read: true}}
-    put conn, article_path(conn, :update, %Article{id: 1}), params
-    assert Repo.get(Article, 1).read == true
+    put conn, article_path(conn, :update, %Article{id: id}), params
+    assert Repo.get(Article, id).read == true
   end
 
-  test "returns a status of 'ok' upon update" do
+  test "returns a status of 'ok' upon update", %{ids: [id | _ids]} do
     params = %{article: %{url: "a new URL"}}
-    conn = put conn, article_path(conn, :update, %Article{id: 4}), params
+    conn = put conn, article_path(conn, :update, %Article{id: id}), params
     {:ok, json} = Poison.decode(conn.resp_body)
+
     assert json == %{
       "status" => "ok",
       "article" => %{
-        "id" => 4,
-        "category" => "test3",
+        "id" => id,
+        "category" => Repo.get(Article, id).category,
         "url" => "a new URL",
         "title" => "some title",
         "read" => false,
@@ -191,34 +190,40 @@ defmodule Reader.ArticleControllerTest do
   end
 
   test "returns a status of 'error' with a reason upon update" do
-    params = %{article: %{url: "one.com"}}
-    conn = put conn, article_path(conn, :update, %Article{id: 4}), params
+    old_article = Article |> where(url: "one.com") |> Repo.first
+    params = %{article: %{url: "two.com"}}
+    conn = put conn, article_path(conn, :update, old_article), params
     {:ok, json} = Poison.decode(conn.resp_body)
-    assert json == %{"status" => "error",
-                     "errors" => ["Url has already been taken"]}
+
+    assert json == %{
+      "status" => "error",
+      "errors" => ["Url has already been taken"]}
   end
 
   ### delete /articles/:id ###
 
-  test "deletes the given article" do
-    delete conn, article_path(conn, :delete, 3)
+  test "deletes the given article", %{ids: [id | _ids]} do
+    delete conn, article_path(conn, :delete, id)
     assert Repo.all(Article) |> Enum.count == 4
   end
 
   ### get /random_article ###
 
   test "returns a random article in given category" do
+    article = Article |> where(category: "test2") |> Repo.first
     path = article_path(conn, :random_article, category: :test2)
     {:ok, %{"article_id" => id}} = get(conn, path).resp_body |> Poison.decode
-    assert id == 3
+    assert id == article.id
 
+    articles = Article |> where(category: "test1") |> Repo.all
     path = article_path(conn, :random_article, category: :test1)
     {:ok, %{"article_id" => id}} = get(conn, path).resp_body |> Poison.decode
-    assert id in [1,2]
+    assert id in Enum.map(articles, fn(a) -> a.id end)
 
+    articles = Repo.all(Article)
     path = article_path(conn, :random_article, category: :random)
     {:ok, %{"article_id" => id}} = get(conn, path).resp_body |> Poison.decode
-    assert id in [1,2,3,4,5]
+    assert id in Enum.map(articles, fn(a) -> a.id end)
   end
 end
 
