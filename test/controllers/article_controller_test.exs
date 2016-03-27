@@ -113,6 +113,14 @@ defmodule Reader.ArticleControllerTest do
     assert article.title == "Shrimp Tasty"
   end
 
+  test "it removes extra query string crap from url" do
+    url = "http://www.test.com?utm_source=rubyweekly&utm_medium=email"
+    params = %{article: %{url: url, category: "octopoid"}}
+    post conn, article_path(conn, :create, params)
+
+    assert Repo.get_by(Article, url: "http://www.test.com")
+  end
+
   ### post /bulk_articles ###
 
   test "it creates many article records" do
@@ -147,6 +155,21 @@ defmodule Reader.ArticleControllerTest do
     post conn, article_path(conn, :create_bulk, params)
     article = Repo.get_by(Article, url: "http://google.goog")
     assert article.title == "NO TITLE"
+  end
+
+  test "removes query string crap from all urls" do
+    urls = [
+      "http://google.com?hey=there",
+      "http://yahoo.com?hey=there&what=now",
+      "http://lycos.com?go=away"
+    ] |> Enum.join("\n")
+
+    params = %{bulk_articles: %{category: "Boo Boo Pie", urls: urls}}
+    post conn, article_path(conn, :create_bulk, params)
+
+    assert Repo.get_by(Article, url: "http://google.com")
+    assert Repo.get_by(Article, url: "http://yahoo.com")
+    assert Repo.get_by(Article, url: "http://lycos.com")
   end
 
   ### put /articles/:id ###

@@ -1,6 +1,6 @@
 defmodule Reader.ArticleController do
   use Reader.Web, :controller
-  alias Reader.{Article, BulkArticles}
+  alias Reader.{Article, BulkArticles, ArticleSanitizer}
   import Ecto.Query
 
   plug :scrub_params, "article" when action in [:create, :update]
@@ -14,7 +14,7 @@ defmodule Reader.ArticleController do
   end
 
   def create(conn, %{"article" => params}) do
-    new_params = params |> _filter |> _sanitize_category
+    new_params = params |> _filter |> ArticleSanitizer.clean_params
     changeset = Article.changeset(%Article{}, new_params)
 
     case Repo.insert(changeset) do
@@ -29,7 +29,7 @@ defmodule Reader.ArticleController do
   end
 
   def create_bulk(conn, %{"bulk_articles" => params}) do
-    changesets = _sanitize_category(params)
+    changesets = ArticleSanitizer.sanitize_category(params)
       |> BulkArticles.parse
       |> BulkArticles.to_changesets
       |> Stream.map(fn(changeset) -> Repo.insert(changeset) end)
@@ -46,7 +46,8 @@ defmodule Reader.ArticleController do
 
   def update(conn, %{"id" => id, "article" => params}) do
     article = Repo.get!(Article, id)
-    changeset = Article.changeset(article, _sanitize_category(params))
+    changeset = article
+      |> Article.changeset(ArticleSanitizer.sanitize_category(params))
 
     case Repo.update(changeset) do
       {:ok, article} ->
@@ -66,7 +67,7 @@ defmodule Reader.ArticleController do
   end
 
   def random_article(conn, params) do
-    %{"category" => category} = _sanitize_category(params)
+    %{"category" => category} = ArticleSanitizer.sanitize_category(params)
     render conn, article_id: _pluck_article(category).id
   end
 
@@ -76,16 +77,6 @@ defmodule Reader.ArticleController do
       |> Enum.map(&(String.capitalize(&1)))
       |> Enum.join(" ")
   end
-
-  defp _sanitize_category(%{"category" => _} = params) do
-    Map.update! params, "category", fn(category) ->
-      category
-        |> String.replace(" ", "")
-        |> Phoenix.Naming.underscore
-    end
-  end
-
-  defp _sanitize_category(params), do: params
 
   defp _filter(params) do
     cond do
