@@ -14,7 +14,7 @@ defmodule Reader.ArticleController do
   end
 
   def create(conn, %{"article" => params}) do
-    new_params = params |> _filter |> ArticleSanitizer.clean_params
+    new_params = params |> _filter |> ArticleSanitizer.clean_article
     changeset = Article.changeset(%Article{}, new_params)
 
     case Repo.insert(changeset) do
@@ -28,8 +28,8 @@ defmodule Reader.ArticleController do
     end
   end
 
-  def create_bulk(conn, %{"bulk_articles" => params}) do
-    changesets = ArticleSanitizer.sanitize_category(params)
+  def create_bulk(conn, %{"bulk_articles" => _} = params) do
+    changesets = ArticleSanitizer.clean_bulk_articles(params)["bulk_articles"]
       |> BulkArticles.parse
       |> BulkArticles.to_changesets
       |> Stream.map(fn(changeset) -> Repo.insert(changeset) end)
