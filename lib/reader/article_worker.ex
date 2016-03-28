@@ -3,7 +3,10 @@ defmodule Reader.ArticleWorker do
 
   def update_title(article) do
     Task.Supervisor.start_child(
-      Reader.ArticleWorkerSupervisor, __MODULE__, :update_article_title, [article])
+      Reader.ArticleWorkerSupervisor,
+      __MODULE__,
+      :update_article_title,
+      [article])
   end
 
   @spec update_article_title(Article.t) :: Article.t
