@@ -2,7 +2,8 @@ defmodule Reader.Article do
   use Reader.Web, :model
   import Ecto.Query
 
-  @derive {Poison.Encoder, only: [:id, :url, :category, :title, :read, :favorite]}
+  @derive {Poison.Encoder, only: [
+    :id, :url, :category, :title, :read, :favorite, :inserted_at]}
 
   schema "articles" do
     field :url, :string

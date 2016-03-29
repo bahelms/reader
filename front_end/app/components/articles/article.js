@@ -114,6 +114,14 @@ class Article extends React.Component {
             {this.displayBoolean(this.state.article.favorite)}
           </div>
         </div>
+        <div className="row">
+          <div className="col-md-2 col-md-offset-3 text-right">
+            <strong>Date Created:</strong>
+          </div>
+          <div className="col-md-6">
+            {this.state.article.inserted_at}
+          </div>
+        </div>
         <ArticleControlButtons
           isEdit={false}
           article={this.state.article}

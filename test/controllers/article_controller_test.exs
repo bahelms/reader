@@ -23,7 +23,7 @@ defmodule Reader.ArticleControllerTest do
     {:ok, ids: ids}
   end
 
-  ### get /articles ###
+  ### GET /articles ###
 
   test "returns all articles ordered by category" do
     conn = get conn, article_path(conn, :index)
@@ -59,21 +59,24 @@ defmodule Reader.ArticleControllerTest do
     ]
   end
 
-  ### get /article/:id ###
+  ### GET /article/:id ###
 
-  test "returns the article for id as json", %{ids: [id | _ids]} do
+  test "returns the requested article as json", %{ids: [id | _ids]} do
+    inserted_at = Repo.get(Article, id).inserted_at |> Ecto.DateTime.to_iso8601
     conn = get conn, article_path(conn, :show, id)
     {:ok, json} = Poison.decode(conn.resp_body)
-    article = Map.delete(json, "id")
-    assert article == %{
+    article_json = Map.delete(json, "id")
+
+    assert article_json == %{
       "url" => "one.com",
       "category" => "test1",
       "title" => "some title",
       "read" => false,
-      "favorite" => false }
+      "favorite" => false,
+      "inserted_at" => inserted_at}
   end
 
-  ### get /article_categories ###
+  ### GET /article_categories ###
 
   test "returns a unique list of all unread categories in asc order, titleized" do
     conn = get conn, article_path(conn, :article_categories)
@@ -81,7 +84,7 @@ defmodule Reader.ArticleControllerTest do
     assert json["categories"] == ["Random", "Test1", "Test2", "Test3"]
   end
 
-  ### post /articles ###
+  ### POST /articles ###
 
   test "it creates a new article record" do
     url = "http://google.com"
@@ -121,7 +124,7 @@ defmodule Reader.ArticleControllerTest do
     assert Repo.get_by(Article, url: "http://www.test.com")
   end
 
-  ### post /bulk_articles ###
+  ### POST /bulk_articles ###
 
   test "it creates many article records" do
     params = %{
@@ -172,7 +175,7 @@ defmodule Reader.ArticleControllerTest do
     assert Repo.get_by(Article, url: "http://lycos.com")
   end
 
-  ### put /articles/:id ###
+  ### PUT /articles/:id ###
 
   test "updates the given article", %{ids: [id | _ids]} do
     params = %{article: %{url: "update.four.com", category: "hey There"}}
@@ -223,14 +226,14 @@ defmodule Reader.ArticleControllerTest do
       "errors" => ["Url has already been taken"]}
   end
 
-  ### delete /articles/:id ###
+  ### DELETE /articles/:id ###
 
   test "deletes the given article", %{ids: [id | _ids]} do
     delete conn, article_path(conn, :delete, id)
     assert Repo.all(Article) |> Enum.count == 4
   end
 
-  ### get /random_article ###
+  ### GET /random_article ###
 
   test "returns a random article in given category" do
     article = Article |> where(category: "test2") |> Repo.first
