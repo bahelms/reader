@@ -8,7 +8,6 @@
 
 TODO
 ----
-* Trim url of ?utm_source... crap upon creation
 * Display date article was added
 * Add sorting and searching to article list
 * "read" option when creating article, if already read
@@ -26,4 +25,5 @@ TODO
 ERRORS
 * Handle Random article with no article returned from query (nil.id function)
 * First test run in new containers has failures; all following tests pass
+* TEST: Fix failures for updating stale struct
 
