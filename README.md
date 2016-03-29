@@ -23,7 +23,11 @@ TODO
 * Cleanup articles (remove articles giving 404, and keep stats on what was removed)
 
 ERRORS
+--
 * Handle Random article with no article returned from query (nil.id function)
-* First test run in new containers has failures; all following tests pass
-* TEST: Fix failures for updating stale struct
+
+TEST
+--
+* Fix failures for updating stale struct
+* Intermittent failures on title updating due to using real network requests
 
