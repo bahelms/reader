@@ -8,7 +8,7 @@
 
 TODO
 ----
-* Display date article was added
+* Paginate article list
 * Add sorting and searching to article list
 * "read" option when creating article, if already read
 * Add front end tests

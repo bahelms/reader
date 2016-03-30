@@ -34,7 +34,7 @@ class Article extends React.Component {
   }
 
   formattedCreatedDate() {
-    let date = new Date(this.state.article.inserted_at || null);
+    const date = new Date(this.state.article.inserted_at || null);
     return date.toLocaleString("en-US", {
       timeZone: "America/New_York",
       timeZoneName: "short"
