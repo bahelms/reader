@@ -28,7 +28,7 @@ defmodule Reader.ArticleControllerTest do
   test "returns all articles ordered by category" do
     conn = get conn, article_path(conn, :index)
     {:ok, json} = Poison.decode(conn.resp_body)
-    articles = json |> Enum.map(&(Map.delete(&1, "id")))
+    articles = json |> Enum.map(&(Map.drop(&1, ["id", "inserted_at"])))
 
     assert articles == [
       %{"url" => "one.com",
@@ -198,6 +198,7 @@ defmodule Reader.ArticleControllerTest do
   end
 
   test "returns a status of 'ok' upon update", %{ids: [id | _ids]} do
+    inserted_at = Repo.get(Article, id).inserted_at |> Ecto.DateTime.to_iso8601
     params = %{article: %{url: "a new URL"}}
     conn = put conn, article_path(conn, :update, %Article{id: id}), params
     {:ok, json} = Poison.decode(conn.resp_body)
@@ -210,7 +211,8 @@ defmodule Reader.ArticleControllerTest do
         "url" => "a new URL",
         "title" => "some title",
         "read" => false,
-        "favorite" => false
+        "favorite" => false,
+        "inserted_at" => inserted_at
       }
     }
   end

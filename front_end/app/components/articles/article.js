@@ -33,6 +33,14 @@ class Article extends React.Component {
     });
   }
 
+  formattedCreatedDate() {
+    let date = new Date(this.state.article.inserted_at || null);
+    return date.toLocaleString("en-US", {
+      timeZone: "America/New_York",
+      timeZoneName: "short"
+    });
+  }
+
   handleToggleEdit() {
     this.setState({edit: !this.state.edit, errors: []});
   }
@@ -118,9 +126,7 @@ class Article extends React.Component {
           <div className="col-md-2 col-md-offset-3 text-right">
             <strong>Date Created:</strong>
           </div>
-          <div className="col-md-6">
-            {this.state.article.inserted_at}
-          </div>
+          <div className="col-md-6">{this.formattedCreatedDate()}</div>
         </div>
         <ArticleControlButtons
           isEdit={false}
