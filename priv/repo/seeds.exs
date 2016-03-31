@@ -16,9 +16,9 @@ if Mix.env == :dev do
   categories = ["elixir", "phoenix", "ruby", "rails", "distributed_systems", "otp"]
   domains    = ["org", "com", "net", "biz", "io"]
 
-  for category <- categories, domain <- domains do
+  for num <- 1..30, category <- categories, domain <- domains do
     %Reader.Article{
-      url: "http://www.#{category}.#{domain}",
+      url: "http://www.#{category}#{num}.#{domain}",
       title: "#{Phoenix.Naming.humanize(category)} #{String.upcase(domain)}",
       category: category
     } |> Reader.Repo.insert!
