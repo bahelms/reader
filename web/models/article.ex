@@ -29,11 +29,6 @@ defmodule Reader.Article do
       |> unique_constraint(:url)
   end
 
-  def articles_by_category do
-    __MODULE__
-      |> order_by([a], a.category)
-  end
-
   def distinct_categories do
     __MODULE__
       |> group_by([a], a.category)

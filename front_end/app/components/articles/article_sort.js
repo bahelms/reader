@@ -1,6 +1,12 @@
 import React from "react";
 
 export default class ArticleSort extends React.Component {
+  styles() {
+    return {
+      marginBottom: "2em"
+    };
+  }
+
   categoryOptions() {
     return this.props.categories.map((category, i) => {
       return <option key={i} value={category}>{category}</option>;
@@ -9,8 +15,8 @@ export default class ArticleSort extends React.Component {
 
   render() {
     return(
-      <div className="row">
-        <label className="col-md-2">
+      <div className="row" style={this.styles()}>
+        <label className="col-md-2 col-md-offset-3 text-right">
           Display By Category:
         </label>
         <div className="col-md-2">
