@@ -1,7 +1,10 @@
 defmodule Reader.ArticleView do
   use Reader.Web, :view
 
-  def render("index.json", %{articles: articles}), do: articles
+  def render("index.json", params) do
+    %{articles: params.articles, categories: params.categories}
+  end
+
   def render("show.json", %{article: article}), do: article
   def render("delete.json", %{status: status}), do: %{status: status}
 

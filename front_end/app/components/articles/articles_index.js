@@ -6,37 +6,43 @@ import ArticleSort from "./article_sort";
 export default class ArticlesIndex extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {articles: [], filteredArticles: []};
+    this.state = {articles: [], filteredArticles: [], categories: []};
     this.server = new Server();
   }
 
   componentDidMount() {
-    this.server.getArticles((articles) => {
+    this.server.getArticles((data) => {
       this.setState({
-        articles: articles,
+        articles: data.articles,
+        categories: this.articleCategories(data.categories),
+        sortCategory: data.categories[0],
         filteredArticles: this.filterArticlesByCategory(
-          articles,
-          articles[0].category
+          data.articles,
+          data.categories[0]
         )
       });
     });
   }
 
-  articleCategories() {
-    const set =  new Set(this.state.articles.map((article) => {
-      return article.category;
-    }));
-    return Array.from(set);
+  articleCategories(categories) {
+    let temp = categories.slice(0);
+    temp.unshift("all");
+    return temp;
   }
 
   filterArticlesByCategory(articles, category) {
-    return articles.filter((article) => {
-      return article.category === category;
-    });
+    if (category === "all")
+      return articles;
+    else {
+      return articles.filter((article) => {
+        return article.category === category;
+      });
+    }
   }
 
   handleCategoryChange(event) {
     this.setState({
+      sortCategory: event.target.value,
       filteredArticles: this.filterArticlesByCategory(
         this.state.articles,
         event.target.value
@@ -48,7 +54,8 @@ export default class ArticlesIndex extends React.Component {
     return(
       <section>
         <ArticleSort
-          categories={this.articleCategories()}
+          categories={this.state.categories}
+          sortCategory={this.state.sortCategory}
           handleCategoryChange={this.handleCategoryChange.bind(this)} />
         <ArticlesTable articles={this.state.filteredArticles} />
       </section>

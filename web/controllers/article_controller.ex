@@ -6,7 +6,13 @@ defmodule Reader.ArticleController do
   plug :scrub_params, "article" when action in [:create, :update]
 
   def index(conn, _params) do
-    render conn, articles: Repo.all(Article.ordered_by_category)
+    categories = Article.distinct_categories
+      |> Article.ordered_by_category
+      |> Repo.all
+
+    render conn,
+      articles: Repo.all(Article.ordered_by_category),
+      categories: categories
   end
 
   def show(conn, %{"id" => id}) do
