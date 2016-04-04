@@ -8,8 +8,7 @@
 
 TODO
 ----
-* Paginate article list
-* Add sorting and searching to article list
+* Add searching to article list
 * "read" option when creating article, if already read
 * Add front end tests
 * Make site mobile friendly
