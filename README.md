@@ -10,6 +10,7 @@ TODO
 ----
 * Add searching to article list
 * "read" option when creating article, if already read
+* Get rid of history crap in url bar
 * Add front end tests
 * Make site mobile friendly
 * Content parser app to specify things like:
