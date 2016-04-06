@@ -27,7 +27,7 @@ PORT="$2"
 TIMEOUT="$3"
 
 # Basic number checking
-if ! [[ $PORT =~ ^[0-9]{,5}$ ]]; then
+if ! [[ $PORT =~ ^[0-9]{0,5}$ ]]; then
   echo "<port> must be a valid port number"
   exit 41
 fi

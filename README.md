@@ -36,4 +36,5 @@ TEST
 --
 * Fix failures for updating stale struct
 * Intermittent failures on title updating due to using real network requests
+* api_test container needs "wait for db" process upon initial container creation
 

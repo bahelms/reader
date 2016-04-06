@@ -4,7 +4,7 @@ services:
   api: &base
     build:
       context: .
-    command: mix start_app
+    command: bash priv/start_app.sh
     environment:
       MIX_ENV: dev
     ports: 

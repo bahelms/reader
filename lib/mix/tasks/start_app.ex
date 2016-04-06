@@ -2,7 +2,8 @@ defmodule Mix.Tasks.StartApp do
   use Mix.Task
 
   def run(_args) do
-    create_database
+    IO.puts "Running create..."
+    Mix.Task.run("ecto.create")
 
     IO.puts "Running migrate..."
     Mix.Task.run("ecto.migrate")
