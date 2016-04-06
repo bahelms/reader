@@ -1,0 +1,89 @@
+#!/bin/bash
+# Wrapper script which tests if a connection can be made to a remote service 
+#
+# Loops until the connection can be made, or the timeout is reached
+#set -x
+
+# https://bitbucket.org/silintl/docker-whenavail/raw/master/whenavail
+
+function usage () {
+  echo "Usage: $0 <remote_host> <remote_port> <timeout> command [arguments] ..."
+  echo ""
+  echo "  timeout is in seconds (0 for infinte timeout)"
+  echo ""
+  echo "Exit Statuses:"
+  echo "  41 - script error"
+  echo "  42 - timeout"
+}
+
+# Check for arguments
+if [[ $# < 4 ]]; then
+  usage
+  exit 41
+fi
+
+HOST="$1"
+PORT="$2"
+TIMEOUT="$3"
+
+# Basic number checking
+if ! [[ $PORT =~ ^[0-9]{,5}$ ]]; then
+  echo "<port> must be a valid port number"
+  exit 41
+fi
+
+if ! [[ $TIMEOUT =~ ^[0-9]+$ ]]; then
+  echo "<timeout> must be a number (0 for infinite timeout)"
+  exit 41
+fi
+
+# shift out ; "$@" now contains the command and its arguments
+shift 3
+
+function cmd-check () {
+  name=$1
+  shift 1
+
+  # See if the command is available, (under any of its names)
+  # then define the named variable with its binary path
+  for cmd in "$@"; do
+    if which $cmd > /dev/null; then
+      declare -g $name="$(which $cmd)"
+      return
+    fi
+  done
+
+  # Exit if it cannot be found
+  echo Commands not found: $@
+  exit 41
+}
+
+# Check for netcat
+cmd-check NC nc netcat
+
+
+if [[ $TIMEOUT == 0 ]]; then
+  CHECK=false
+else
+  CHECK=true
+fi
+
+# Detection loop:
+while true; do
+  if $NC -z "$HOST" $PORT; then
+    break
+  fi
+
+  if $CHECK; then
+    if [[ $TIMEOUT == 0 ]]; then
+      # Timeout reached
+      exit 42
+    else
+      TIMEOUT=$(( $TIMEOUT-1 ))
+    fi
+  fi
+
+  sleep 1
+done
+
+exec "$@"
