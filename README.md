@@ -12,7 +12,7 @@ TODO
 * Implement Redux
   * Implement signin authentication with JWT
 * Button to parse newsletter emails from Gmail and list the articles for  
-  manual approval. Gmail API. Even better would be for Gmail to send a post
+  manual approval. Gmail API. Even better would be for Gmail to send a post  
   to the app's API automatically. 
 
 * Easy
