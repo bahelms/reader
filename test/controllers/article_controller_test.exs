@@ -63,7 +63,6 @@ defmodule Reader.ArticleControllerTest do
   test "returns all unique categories in alphabetical order" do
     conn = get conn, article_path(conn, :index)
     {:ok, json} = Poison.decode(conn.resp_body)
-    articles = json["categories"]
     assert json["categories"] == ["test1", "test2", "test3"]
   end
 

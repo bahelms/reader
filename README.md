@@ -9,7 +9,7 @@
 TODO
 ----
 * Add searching to article list
-* Implement Redux
+* Implement Redux or redesign front end in Elm
   * Implement signin authentication with JWT
 * Button to parse newsletter emails from Gmail and list the articles for  
   manual approval. Gmail API. Even better would be for Gmail to send a post  
